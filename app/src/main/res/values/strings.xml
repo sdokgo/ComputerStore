@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ComputerStore</string>
+    <string name="enter_mail">Nhập Email</string>
+    <string name="enter_pass">Nhập mật khẩu</string>
+    <string name="email">Email:</string>
+    <string name="password">Mật khẩu:</string>
+    <string name="re_enter_pass">Nhập lại mật khẩu:</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="lost_pass">Quên mật khẩu ?</string>
+    <string name="no_account">Chưa có tài khoản ?  </string>
+    <string name="register">Đăng Ký</string>
+</resources>

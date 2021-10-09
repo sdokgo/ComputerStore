@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/dang_ky_background"
+    android:layout_height="match_parent"
+    tools:context="LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/txt_mail"
+        android:layout_marginStart="30dp"
+        android:text="@string/email"
+        android:layout_below="@id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:id="@+id/frame_mail"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border"
+        android:layout_below="@id/txt_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:hint="@string/enter_mail"
+            android:id="@+id/edt_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:background="@null"
+            android:paddingStart="40dp"
+            android:paddingEnd="10dp">
+
+            <requestFocus />
+        </EditText>
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/mail_icon" />
+    </FrameLayout>
+
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/txt_pass1"
+        android:layout_marginStart="30dp"
+        android:text="@string/password"
+        android:layout_below="@id/frame_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:id="@+id/frame_pass"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border"
+        android:layout_below="@id/txt_pass1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <EditText
+            android:hint="@string/enter_pass"
+            android:id="@+id/edt_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:background="@null"
+            android:paddingStart="40dp"
+            android:paddingEnd="10dp">
+
+            <requestFocus />
+        </EditText>
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/lock_icon" />
+    </FrameLayout>
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/txt_pass2"
+        android:layout_marginStart="30dp"
+        android:text="@string/re_enter_pass"
+        android:layout_below="@id/frame_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:id="@+id/frame_pass2"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border"
+        android:layout_below="@id/txt_pass2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <EditText
+            android:hint="@string/enter_pass"
+            android:id="@+id/edt_pass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:background="@null"
+            android:paddingStart="40dp"
+            android:paddingEnd="10dp">
+            <requestFocus />
+        </EditText>
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/lock_icon" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/border_button"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/frame_pass2"
+        android:text="@string/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
