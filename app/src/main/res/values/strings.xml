@@ -9,4 +9,8 @@
     <string name="lost_pass">Quên mật khẩu ?</string>
     <string name="no_account">Chưa có tài khoản ?  </string>
     <string name="register">Đăng Ký</string>
+    <string name="account">Tài khoản</string>
+    <string name="home">Trang chủ</string>
+    <string name="category">Danh mục</string>
+    <string name="cart">Giỏ hàng</string>
 </resources>
