@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SearchActivity">
+
+    <RelativeLayout
+        android:background="@color/color_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"/>
     <com.paulrybitskyi.persistentsearchview.PersistentSearchView
         android:id="@+id/persistentSearchView"
         app:cardCornerRadius="20dp"
@@ -13,4 +18,24 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:focusableInTouchMode="false"
         app:leftButtonDrawable="@drawable/ic_search_24"/>
+    <LinearLayout
+        android:layout_below="@id/persistentSearchView"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+        <TextView
+            android:textStyle="bold"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="16sp"
+            android:text="@string/suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <GridView
+            android:numColumns="3"
+            android:id="@+id/grid_suggest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </RelativeLayout>

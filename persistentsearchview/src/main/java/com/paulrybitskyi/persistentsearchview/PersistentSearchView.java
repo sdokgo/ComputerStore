@@ -2300,7 +2300,7 @@ public class PersistentSearchView extends FrameLayout {
     private int getSuggestionsContainerMaxHeight() {
         final int maxRawHeight = (Utils.getScreenSize(getContext())[1] / 2);
         final int maxItemCount = (maxRawHeight / suggestionItemHeight);
-        final int maxAllowedItemCount = 5; //BinhBH chi goi y toi da 5 item
+        final int maxAllowedItemCount = 4; //BinhBH chi goi y toi da 4 item
 
         return ((maxItemCount > maxAllowedItemCount) ? (maxAllowedItemCount * suggestionItemHeight) : (maxItemCount * suggestionItemHeight));
     }

@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridView;
+import android.widget.Toast;
 
+import com.huybinh2k.computerstore.Adapter.SuggestionAdapter;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.database.SuggestionDAO;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
@@ -21,12 +24,32 @@ public class SearchActivity extends AppCompatActivity {
 
     private PersistentSearchView mSearchView;
     private SuggestionDAO mSuggestionDAO;
+    private GridView mGridViewSuggest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         mSuggestionDAO = new SuggestionDAO(this);
+        fakeDataSuggest();
         initSearchView();
+    }
+
+    //TODO BinhBH Cần sửa lại data khi có API
+    private void fakeDataSuggest() {
+        List<String> list = new ArrayList<>();
+        list.add("Ram DDR4");
+        list.add("USB 64GB");
+        list.add("Lap Top ASUS");
+        list.add("Tai Nghe");
+        list.add("Bàn Phím");
+        list.add("Màn Hình");
+        SuggestionAdapter suggestionAdapter = new SuggestionAdapter(list);
+        mGridViewSuggest = findViewById(R.id.grid_suggest);
+        mGridViewSuggest.setAdapter(suggestionAdapter);
+        mGridViewSuggest.setOnItemClickListener((a, v, position, id) -> {
+            String s = (String) mGridViewSuggest.getItemAtPosition(position);
+            Toast.makeText(SearchActivity.this, s, Toast.LENGTH_SHORT).show();
+        });
     }
 
 
@@ -37,7 +60,10 @@ public class SearchActivity extends AppCompatActivity {
         mSearchView.setVoiceRecognitionDelegate(new VoiceRecognitionDelegate(this));
 
         mSearchView.setOnSearchConfirmedListener((searchView, query) -> {
-            mSuggestionDAO.insertSuggest(query);
+            if (!query.isEmpty()){
+                mSuggestionDAO.insertSuggest(query);
+            }
+            mSearchView.collapse(true, true);
         });
 
         mSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
@@ -76,5 +102,14 @@ public class SearchActivity extends AppCompatActivity {
         // Calling the voice recognition delegate to properly handle voice input results
         VoiceRecognitionDelegate.handleResult(mSearchView, requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSearchView.isExpanded()){
+            mSearchView.collapse();
+            return;
+        }
+        super.onBackPressed();
     }
 }
