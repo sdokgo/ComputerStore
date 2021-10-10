@@ -2701,4 +2701,12 @@ public class PersistentSearchView extends FrameLayout {
     public AdvancedEditText getInputEt() {
         return inputEt;
     }
+
+    public ImageView getVoiceInputBtnIv(){
+        return voiceInputBtnIv;
+    }
+
+    public ImageView getLeftBtnIv(){
+        return leftBtnIv;
+    }
 }

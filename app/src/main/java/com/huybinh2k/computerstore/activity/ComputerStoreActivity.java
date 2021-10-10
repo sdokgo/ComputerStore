@@ -17,6 +17,7 @@ import com.huybinh2k.computerstore.fragment.AccountFragment;
 import com.huybinh2k.computerstore.fragment.CartFragment;
 import com.huybinh2k.computerstore.fragment.CategoryFragment;
 import com.huybinh2k.computerstore.fragment.HomeFragment;
+import com.huybinh2k.computerstore.fragment.NotificationFragment;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 
 /**
@@ -41,7 +42,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), getLifecycle());
         pagerAdapter.addFragment(new HomeFragment());
         pagerAdapter.addFragment(new CategoryFragment());
-        pagerAdapter.addFragment(new CartFragment());
+        pagerAdapter.addFragment(new NotificationFragment());
         pagerAdapter.addFragment(new AccountFragment());
 
         viewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
@@ -67,6 +68,12 @@ public class ComputerStoreActivity extends AppCompatActivity {
                 startActivity(new Intent(ComputerStoreActivity.this, SearchActivity.class));
             }
             return false;
+        });
+        searchView.getVoiceInputBtnIv().setOnClickListener(view ->{
+            startActivity(new Intent(ComputerStoreActivity.this, SearchActivity.class));
+        });
+        searchView.getLeftBtnIv().setOnClickListener(view ->{
+            startActivity(new Intent(ComputerStoreActivity.this, SearchActivity.class));
         });
     }
 }

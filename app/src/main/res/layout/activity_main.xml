@@ -7,14 +7,30 @@
     android:orientation="vertical"
     tools:context=".activity.ComputerStoreActivity">
 
-    <com.paulrybitskyi.persistentsearchview.PersistentSearchView
-        android:id="@+id/persistentSearchView"
-        app:cardCornerRadius="20dp"
+    <RelativeLayout
+        android:background="@color/color_toolbar"
+        android:id="@+id/layout_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftButtonDrawable="@drawable/ic_search_24" />
+        android:layout_height="wrap_content">
+        <com.paulrybitskyi.persistentsearchview.PersistentSearchView
+            android:id="@+id/persistentSearchView"
+            app:cardCornerRadius="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/img_cart"
+            app:leftButtonDrawable="@drawable/ic_search_24" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:id="@+id/img_cart"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_shopping_cart_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <androidx.viewpager2.widget.ViewPager2
-        android:layout_below="@id/persistentSearchView"
+        android:layout_below="@id/layout_tool_bar"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
