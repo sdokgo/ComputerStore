@@ -47,6 +47,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
         viewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewpager.setAdapter(pagerAdapter);
 
+        viewpager.setUserInputEnabled(false); //false disable viewpager swiping, true enable
         new TabLayoutMediator(tabLayout, viewpager,
                 (tab, position) -> {
                     tab.setIcon(Constant.arrImage[position]);
