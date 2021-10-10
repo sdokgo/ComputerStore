@@ -3,7 +3,10 @@ package com.huybinh2k.computerstore.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -14,6 +17,7 @@ import com.huybinh2k.computerstore.fragment.AccountFragment;
 import com.huybinh2k.computerstore.fragment.CartFragment;
 import com.huybinh2k.computerstore.fragment.CategoryFragment;
 import com.huybinh2k.computerstore.fragment.HomeFragment;
+import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 
 /**
  * Created by BinhBH on 10/9/2021.
@@ -25,6 +29,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initSearchView();
     }
 
 
@@ -48,5 +53,19 @@ public class ComputerStoreActivity extends AppCompatActivity {
                     tab.setText(getResources().getText(Constant.arrName[position]));
                 }
         ).attach();
+    }
+
+    private void initSearchView() {
+        PersistentSearchView searchView = findViewById(R.id.persistentSearchView);
+        searchView.collapse(false, true);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        searchView.getInputEt().setTouchEventInterceptor((view, event) -> {
+            view.performClick();
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                startActivity(new Intent(ComputerStoreActivity.this, SearchActivity.class));
+            }
+            return false;
+        });
     }
 }

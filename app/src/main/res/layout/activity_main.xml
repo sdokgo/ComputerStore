@@ -7,7 +7,14 @@
     android:orientation="vertical"
     tools:context=".activity.ComputerStoreActivity">
 
+    <com.paulrybitskyi.persistentsearchview.PersistentSearchView
+        android:id="@+id/persistentSearchView"
+        app:cardCornerRadius="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftButtonDrawable="@drawable/ic_search_24" />
     <androidx.viewpager2.widget.ViewPager2
+        android:layout_below="@id/persistentSearchView"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +22,8 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/tabs"
+        app:tabTextAppearance="@style/TabLayout"
+        android:theme="@style/TabLayout"
         app:tabIndicatorHeight="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

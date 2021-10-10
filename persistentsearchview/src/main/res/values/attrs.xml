@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2017 Paul Rybitskyi, paul.rybitskyi.work@gmail.com
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<resources>
+
+    <declare-styleable name="PersistentSearchView">
+
+        <attr name="isDismissableOnTouchOutside" format="boolean"/>
+        <attr name="isProgressBarEnabled" format="boolean"/>
+        <attr name="isVoiceInputButtonEnabled" format="boolean"/>
+        <attr name="isClearInputButtonEnabled" format="boolean"/>
+        <attr name="areSuggestionsDisabled" format="boolean"/>
+        <attr name="shouldDimBehind" format="boolean"/>
+
+        <attr name="dimColor" format="color"/>
+        <attr name="dimAmount" format="float"/>
+
+        <attr name="cardBackgroundColor" format="color"/>
+        <attr name="cardCornerRadius" format="dimension"/>
+        <attr name="cardElevation" format="dimension"/>
+
+        <attr name="queryInputHint" format="string"/>
+        <attr name="queryInputHintColor" format="color"/>
+        <attr name="queryInputTextColor" format="color"/>
+        <attr name="queryInputCursorDrawable" format="reference"/>
+        <attr name="queryInputCursorColor" format="color"/>
+        <attr name="queryInputBarIconColor" format="color"/>
+
+        <attr name="leftButtonDrawable" format="reference"/>
+        <attr name="rightButtonDrawable" format="reference"/>
+        <attr name="clearInputButtonDrawable" format="reference"/>
+        <attr name="voiceInputButtonDrawable" format="reference"/>
+
+        <attr name="dividerColor" format="color"/>
+        <attr name="progressBarColor" format="color"/>
+
+        <attr name="suggestionRecentSearchIconColor" format="color"/>
+        <attr name="suggestionSearchSuggestionIconColor" format="color"/>
+        <attr name="suggestionIconColor" format="color"/>
+        <attr name="suggestionTextColor" format="color"/>
+        <attr name="suggestionSelectedTextColor" format="color"/>
+
+    </declare-styleable>
+
+</resources>
