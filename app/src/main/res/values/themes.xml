@@ -35,4 +35,8 @@
         <item name="colorPrimary">@color/red</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="ThemeCategory">
+        <item name="background">@drawable/background_cate</item>
+    </style>
 </resources>

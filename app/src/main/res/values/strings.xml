@@ -15,4 +15,5 @@
     <string name="cart">Giỏ hàng</string>
     <string name="notification">Thông báo</string>
     <string name="suggestion">Gợi ý</string>
+    <string name="all_cate">Tất cả các danh mục</string>
 </resources>
