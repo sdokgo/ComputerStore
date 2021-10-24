@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/dang_ky_background"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/txt_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/auth_account"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/txt_authentic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_screen"
+        android:layout_marginStart="30dp"
+        android:text="@string/code_authentic"
+        android:textSize="20sp" />
+    <FrameLayout
+        android:id="@+id/frame_mail"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border"
+        android:layout_below="@id/txt_authentic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <EditText
+            android:maxLength="6"
+            android:hint="@string/enter_authentic"
+            android:id="@+id/edt_authentic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="number"
+            android:maxLines="1"
+            android:background="@null"
+            android:paddingStart="40dp"
+            android:paddingEnd="10dp">
+            <requestFocus />
+        </EditText>
+        <ImageView
+            android:id="@+id/img_authentic"
+            android:layout_marginStart="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_baseline_security_24" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_authentic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frame_mail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/border_button"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="@string/authentic"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

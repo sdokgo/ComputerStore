@@ -6,7 +6,7 @@
     <string name="password">Mật khẩu:</string>
     <string name="re_enter_pass">Nhập lại mật khẩu:</string>
     <string name="login_button">Đăng nhập</string>
-    <string name="lost_pass">Quên mật khẩu ?</string>
+    <string name="lost_pass">Quên mật khẩu</string>
     <string name="no_account">Chưa có tài khoản ?  </string>
     <string name="register">Đăng Ký</string>
     <string name="account">Tài khoản</string>
@@ -16,4 +16,13 @@
     <string name="notification">Thông báo</string>
     <string name="suggestion">Gợi ý</string>
     <string name="all_cate">Tất cả các danh mục</string>
+    <string name="code_authentic">Mã xác thực</string>
+    <string name="enter_authentic">Nhập mã xác thực</string>
+    <string name="authentic">Xác thực</string>
+    <string name="enter_mail_loss_pass">Nhập Email của tài khoản</string>
+    <string name="auth_account">Xác thực tài khoản</string>
+    <string name="mail_invalid">Định dạng mail không hợp lệ</string>
+    <string name="must_enter_pass">Bạn phải nhập mật khẩu</string>
+    <string name="must_enter_pass2">Bạn phải nhập mật khẩu lần 2</string>
+    <string name="repass_not_equals_pass">Mật khẩu nhập lại không khớp</string>
 </resources>

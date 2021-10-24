@@ -14,6 +14,7 @@
         android:theme="@style/Theme.ComputerStore">
         <activity
             android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.AuthenticationActivity" />
         <activity
             android:name=".activity.ComputerStoreActivity">
             <intent-filter>
