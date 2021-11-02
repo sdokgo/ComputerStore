@@ -25,4 +25,9 @@
     <string name="must_enter_pass">Bạn phải nhập mật khẩu</string>
     <string name="must_enter_pass2">Bạn phải nhập mật khẩu lần 2</string>
     <string name="repass_not_equals_pass">Mật khẩu nhập lại không khớp</string>
+    <string name="old_pass">Mật khẩu cũ:</string>
+    <string name="enter_old_pass">Nhập Mật khẩu cũ</string>
+    <string name="new_password">Mật khẩu mới:</string>
+    <string name="enter_new_pass">Nhập mật khẩu mới</string>
+    <string name="change_pass">Đổi mật khẩu</string>
 </resources>

@@ -1,9 +1,14 @@
 package com.huybinh2k.computerstore.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +18,10 @@ import android.widget.Toast;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -24,8 +33,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+
+//TODO BinhBH Sửa lại sau, rối quá, đọc khó hiểu.
 public class AuthenticationActivity extends AppCompatActivity {
 
+    private static final int REQUEST_FORGET_PASS = 141;
     private boolean mIsAuthentic;
     private TextView mTitleEditText;
     private EditText mEditTextAuth;
@@ -34,6 +46,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     private TextView mTitleScreen;
     private LoadingDialog mLoadingDialog;
     private String mMailAuthentic;
+    private boolean mIsLossPass;
+    private String mOTP_hash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,28 +73,35 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void changeView() {
         if (!mIsAuthentic){
+            mEditTextAuth.setInputType(InputType.TYPE_CLASS_TEXT);
+            mEditTextAuth.setFilters(new InputFilter[]{new InputFilter.LengthFilter(200)});
             mTitleEditText.setText(getResources().getString(R.string.email));
             mEditTextAuth.setHint(getResources().getString(R.string.enter_mail_loss_pass));
             mImageAuth.setImageDrawable(getDrawable(R.drawable.ic_mail_black_24));
-            mButtonAuth.setText(getResources().getString(R.string.register));
+            mButtonAuth.setText(getResources().getString(R.string.lost_pass));
             mTitleScreen.setText(getResources().getString(R.string.lost_pass));
         }else {
+            mEditTextAuth.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+            mEditTextAuth.setInputType(InputType.TYPE_CLASS_NUMBER);
             mTitleEditText.setText(getResources().getString(R.string.code_authentic));
             mEditTextAuth.setHint(getResources().getString(R.string.enter_authentic));
             mImageAuth.setImageDrawable(getDrawable(R.drawable.ic_baseline_security_24));
             mButtonAuth.setText(getResources().getString(R.string.authentic));
             mTitleScreen.setText(getResources().getString(R.string.auth_account));
         }
+        mEditTextAuth.getText().clear();
     }
 
 
     private void authentic(){
         if (!mEditTextAuth.getText().toString().isEmpty() && !(mEditTextAuth.getText().toString().length() <6)){
             if (mIsAuthentic){
-                AuthenticAsyncTask registerAsyncTask = new AuthenticAsyncTask(this);
-                registerAsyncTask.execute();
+                AuthenticAsyncTask authenticAsyncTask = new AuthenticAsyncTask(this);
+                authenticAsyncTask.execute();
             }else {
-
+                mMailAuthentic = mEditTextAuth.getText().toString();
+                AuthenticAsyncTask authenticAsyncTask = new AuthenticAsyncTask(this);
+                authenticAsyncTask.execute();
             }
         }
     }
@@ -89,7 +110,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private static class AuthenticAsyncTask extends AsyncTask<Void, Void, Void> {
         private final WeakReference<AuthenticationActivity> mWeakReference;
         private boolean mIsSuccess;
-        private String mOTP_hash;
+
 
         public AuthenticAsyncTask(AuthenticationActivity activity) {
             mWeakReference = new WeakReference<>(activity);
@@ -106,20 +127,30 @@ public class AuthenticationActivity extends AppCompatActivity {
             super.onPostExecute(unused);
             mWeakReference.get().mLoadingDialog.dismissDialog();
             if (mWeakReference.get().mIsAuthentic){
-                if (mIsSuccess){
+                if (mIsSuccess && !mWeakReference.get().mIsLossPass){
                     Toast.makeText(mWeakReference.get().getApplicationContext(),
                             "Xác thực thành công", Toast.LENGTH_SHORT).show();
                     mWeakReference.get().setResult(RESULT_OK);
                     mWeakReference.get().finish();
+                }else if (mIsSuccess && mWeakReference.get().mIsLossPass){
+                    Intent intent = new Intent(mWeakReference.get(), ChangePasswordActivity.class);
+                    intent.putExtra(Constant.IS_FORGET_PASS, true);
+                    intent.putExtra(Constant.OTP_HASH, mWeakReference.get().mOTP_hash);
+                    intent.putExtra(Constant.EMAIL, mWeakReference.get().mMailAuthentic);
+                    mWeakReference.get().startActivityForResult(intent, REQUEST_FORGET_PASS);
                 }else {
                     Toast.makeText(mWeakReference.get().getApplicationContext(),
                             "Mã xác thự không chính xác", Toast.LENGTH_SHORT).show();
                 }
             }else {
                 if (mIsSuccess){
+                    Toast.makeText(mWeakReference.get().getApplicationContext(),
+                            "Đã gửi mã xác thực đến mail của bạn", Toast.LENGTH_SHORT).show();
                     mWeakReference.get().mIsAuthentic = true;
                     mWeakReference.get().changeView();
                 }else {
+                    Toast.makeText(mWeakReference.get().getApplicationContext(),
+                            "Có lỗi xảy ra, xin thử lại", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -129,13 +160,20 @@ public class AuthenticationActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             String url, content;
-            if (mWeakReference.get().mIsAuthentic){
+            //BinhBH Xác thực tài khoản
+            if (mWeakReference.get().mIsAuthentic && !mWeakReference.get().mIsLossPass){
                 url = Constant.API_VERIFY_ACCOUNT;
                 content = Constant.EMAIL +"=" + mWeakReference.get().mMailAuthentic +"&"+
                         Constant.OTP + "="+mWeakReference.get().mEditTextAuth.getText().toString();
-            }else {
+            //BinhBH Nhập mail quên mk
+            }else if (!mWeakReference.get().mIsLossPass){
                 url = Constant.API_SEND_OTP;
                 content =Constant.EMAIL +"=" + mWeakReference.get().mMailAuthentic;
+            //BinhBH Nhập OTP quên mật khẩu
+            }else {
+                url = Constant.API_VERIFY_HANDLE;
+                content = Constant.EMAIL +"=" + mWeakReference.get().mMailAuthentic +"&"+
+                        Constant.OTP + "="+mWeakReference.get().mEditTextAuth.getText().toString();
             }
 
             OkHttpClient client = new OkHttpClient().newBuilder()
@@ -152,6 +190,18 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
+                    if (mWeakReference.get().mIsLossPass) {
+                        try {
+                            JSONObject jObj = new JSONObject(Objects.requireNonNull(response.body()).string());
+                            mWeakReference.get().mOTP_hash = jObj.getString("OTP");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (!mWeakReference.get().mIsAuthentic){
+                        mWeakReference.get().mIsLossPass = true;
+                    }
+
                 }else if (response.code() >= 400){
                     mIsSuccess  = false;
                 }
@@ -159,6 +209,18 @@ public class AuthenticationActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FORGET_PASS){
+            if (resultCode == RESULT_OK){
+                Intent resultIntent = new Intent();
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
         }
     }
 }

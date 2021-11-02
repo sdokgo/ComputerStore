@@ -25,11 +25,15 @@ public class LoadingDialog {
     }
 
     public void showDialog(){
-        mAlertDialog.show();
+        if (!mAlertDialog.isShowing()){
+            mAlertDialog.show();
+        }
     }
 
     public void dismissDialog(){
-        mAlertDialog.dismiss();
+        if (mAlertDialog.isShowing()){
+            mAlertDialog.dismiss();
+        }
     }
 
 

@@ -14,6 +14,8 @@ public class Constant {
 
     public static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     public static final String IS_REGISTER = "is_register";
+    public static final String IS_FORGET_PASS = "IS_FORGET_PASS";
+    public static final String OTP_HASH = "OTP_HASH";
 
     public static final String LOCALHOST ="http://10.0.2.2:8000";
     public static final String API_REGISTER = LOCALHOST + "/api/auth/register";
@@ -21,6 +23,7 @@ public class Constant {
     public static final String API_FORGET_PASS = LOCALHOST + "/api/auth/forget_password";
     public static final String API_VERIFY_ACCOUNT = LOCALHOST + "/api/auth/verify_account";
     public static final String API_SEND_OTP = LOCALHOST + "/api/auth/send_OTP";
+    public static final String API_VERIFY_HANDLE = LOCALHOST + "/api/auth/verify_handle";
 
 
 
