@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.huybinh2k.computerstore.Adapter.SuggestionAdapter;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.Utils;
 import com.huybinh2k.computerstore.database.SuggestionDAO;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
@@ -60,6 +61,10 @@ public class SearchActivity extends AppCompatActivity {
         mSearchView.setVoiceRecognitionDelegate(new VoiceRecognitionDelegate(this));
 
         mSearchView.setOnSearchConfirmedListener((searchView, query) -> {
+            if (!Utils.isConnectedInternet(this)){
+                Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (!query.isEmpty()){
                 mSuggestionDAO.insertSuggest(query);
             }
@@ -75,6 +80,10 @@ public class SearchActivity extends AppCompatActivity {
         mSearchView.setOnSuggestionChangeListener(new OnSuggestionChangeListener() {
             @Override
             public void onSuggestionPicked(SuggestionItem suggestion) {
+                if (!Utils.isConnectedInternet(SearchActivity.this)){
+                    Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
             @Override
             public void onSuggestionRemoved(SuggestionItem suggestion) {

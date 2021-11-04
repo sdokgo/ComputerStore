@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.Utils;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashMap;
@@ -57,6 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
      * BinhBH Đăng kí tài khoản nếu dữ liệu hợp lệ
      */
     private void registerAccount() {
+        if (!Utils.isConnectedInternet(this)){
+            Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!isDataInvalid()){
             LinkedHashMap<String, String> map = new LinkedHashMap<>();
             map.put(Constant.NAME, "binhbh");

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.Utils;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -61,6 +62,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void changePassword() {
+        if (!Utils.isConnectedInternet(this)){
+            Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!isDataInvalid()){
             if (mIsForgetPass){
                 ChangeForgetPassAsyncTask changeForgetPassAsyncTask = new ChangeForgetPassAsyncTask(this);

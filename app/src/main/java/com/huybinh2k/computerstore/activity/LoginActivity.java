@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
+        if (!Utils.isConnectedInternet(this)){
+            Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!isDataInvalid()){
             mLoginAsyncTask.execute();
         }

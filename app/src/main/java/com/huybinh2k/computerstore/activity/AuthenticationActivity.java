@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,6 +95,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
 
     private void authentic(){
+        if (!Utils.isConnectedInternet(this)){
+            Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!mEditTextAuth.getText().toString().isEmpty() && !(mEditTextAuth.getText().toString().length() <6)){
             if (mIsAuthentic){
                 AuthenticAsyncTask authenticAsyncTask = new AuthenticAsyncTask(this);
