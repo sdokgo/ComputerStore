@@ -2,6 +2,7 @@ package com.huybinh2k.computerstore.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,15 +50,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Uri uriImage = Uri.parse(categoryItem.getUriImage());
         Glide.with(mContext).load(uriImage).into(holder.imageView);
         holder.layout.setOnClickListener(view ->{
+            int lastSelect = mPosCateSelect;
             mPosCateSelect = holder.getAdapterPosition();
             mCateSelect = categoryItem;
             sendBroadCastChangeCate();
+            notifyItemChanged(position);
+            notifyItemChanged(lastSelect);
         });
-//        if(mPosCateSelect == holder.getAdapterPosition()){
-//            holder.layout.setBackgroundColor(Color.parseColor("#567845"));
-//        } else {
-//            holder.layout.setBackgroundColor(Color.parseColor("#ffffff"));
-//        }
+        if(mPosCateSelect == holder.getAdapterPosition()){
+            holder.layout.setBackground(mContext.getDrawable(R.drawable.border_cate_select));
+        } else {
+            holder.layout.setBackground(null);
+        }
 
     }
 
@@ -90,5 +94,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         mListCate.clear();
         mListCate.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public void setPositionCateSelect(int mPosCateSelect) {
+        this.mPosCateSelect = mPosCateSelect;
+        notifyItemChanged(mPosCateSelect);
     }
 }

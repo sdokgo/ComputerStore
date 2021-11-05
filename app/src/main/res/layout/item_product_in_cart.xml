@@ -60,9 +60,9 @@
         app:snp_buttonIconRight="@drawable/ic_right"
         app:snp_maxValue="100"
         app:snp_minValue="1"
-        app:snp_value="1"
+        app:snp_orientation="horizontal"
         app:snp_stepSize="1"
-        app:snp_orientation="horizontal"/>
+        app:snp_value="1" />
 
        <!-- ScrollableNumberPicker.getValue()-->
 

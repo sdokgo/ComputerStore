@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +57,13 @@ public class CategoryFragment extends Fragment {
     private ImageView mImageMoreCate;
     private ImageView mImageLessCate;
 
-    List<CategoryItem> mListCategory = new ArrayList<>();
-    List<Items> mListItems = new ArrayList<>();
+    private List<CategoryItem> mListCategory = new ArrayList<>();
+    private List<Items> mListItems = new ArrayList<>();
+
+    private String mIdCate;
+    private boolean isLoadingItems = true;
+    private int mPastVisibleItems, mVisibleItemCount, mTotalItemCount;
+    private int mNumberPage = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +100,28 @@ public class CategoryFragment extends Fragment {
 
         mRecyclerItems = view.findViewById(R.id.recycler_items);
         mItemsAdapter = new ItemsAdapter(getContext(), mListItems);
-        mRecyclerItems.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerItems.setLayoutManager(mLayoutManager);
         mRecyclerItems.setAdapter(mItemsAdapter);
+
+
+        mRecyclerItems.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { //check for scroll down
+                    mVisibleItemCount = mLayoutManager.getChildCount();
+                    mTotalItemCount = mLayoutManager.getItemCount();
+                    mPastVisibleItems = mLayoutManager.findFirstVisibleItemPositions(null)[0];
+
+                    if (isLoadingItems) {
+                        if ((mVisibleItemCount + mPastVisibleItems) >= mTotalItemCount) {
+                            isLoadingItems = false;
+                            new GetItemsAsyncTask(CategoryFragment.this, mIdCate, true, ++mNumberPage).execute();
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
@@ -135,7 +161,9 @@ public class CategoryFragment extends Fragment {
             if (mIsSuccess){
                 mWeakReference.get().mCategoryAdapter.updateListCate(listCategory);
                 if (!listCategory.isEmpty()){
-                    new GetItemsAsyncTask(mWeakReference.get(), listCategory.get(0).getID()).execute();
+                    mWeakReference.get().mIdCate = listCategory.get(0).getID();
+                    mWeakReference.get().mCategoryAdapter.setPositionCateSelect(0);
+                    new GetItemsAsyncTask(mWeakReference.get(), mWeakReference.get().mIdCate).execute();
                 }
             }
         }
@@ -180,9 +208,10 @@ public class CategoryFragment extends Fragment {
     private BroadcastReceiver mReceiverChangeCateSelect = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String idCate = intent.getStringExtra(ID_CATE);
-            if (!idCate.isEmpty()){
-                new GetItemsAsyncTask(CategoryFragment.this, idCate).execute();
+            mIdCate = intent.getStringExtra(ID_CATE);
+            if (!mIdCate.isEmpty()){
+                mNumberPage = 1;
+                new GetItemsAsyncTask(CategoryFragment.this, mIdCate).execute();
             }
         }
     };
@@ -211,17 +240,30 @@ public class CategoryFragment extends Fragment {
         private boolean mIsSuccess;
         private String idCate;
         private List<Items> list = new ArrayList<>();
+        private boolean loadMore;
+        private int page;
 
         public GetItemsAsyncTask(CategoryFragment fragment, String id) {
             mWeakReference = new WeakReference<>(fragment);
             idCate = id;
+        }
+        public GetItemsAsyncTask(CategoryFragment fragment, String id, boolean more, int page) {
+            mWeakReference = new WeakReference<>(fragment);
+            idCate = id;
+            loadMore = more;
+            this.page = page;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (mIsSuccess){
-                mWeakReference.get().mItemsAdapter.updateList(list);
+                if (loadMore){
+                    mWeakReference.get().mItemsAdapter.addDataFromPage(list);
+                    mWeakReference.get().isLoadingItems = true;
+                }else {
+                    mWeakReference.get().mItemsAdapter.updateList(list);
+                }
             }
         }
 
@@ -229,8 +271,14 @@ public class CategoryFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
-            String url = "http://10.0.2.2:8000/api/item/get_list_search?assetID=" +
-                    idCate + "&pageSize=15&page=1";
+            String url;
+            if (loadMore){
+                url = "http://10.0.2.2:8000/api/item/get_list_search?assetID=" +
+                        idCate + "&pageSize=15&page=" + page;
+            }else {
+                url = "http://10.0.2.2:8000/api/item/get_list_search?assetID=" +
+                        idCate + "&pageSize=15&page=1";
+            }
             Request request = new Request.Builder()
                     .url(url)
                     .method("GET", null)

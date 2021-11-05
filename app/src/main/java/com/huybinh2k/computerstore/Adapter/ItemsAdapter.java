@@ -68,4 +68,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemHolder> 
         mListItems.addAll(list);
         notifyDataSetChanged();
     }
+
+    public void addDataFromPage(List<Items> list){
+        mListItems.addAll(list);
+        notifyDataSetChanged();
+    }
 }

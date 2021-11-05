@@ -57,6 +57,9 @@ public class AccountFragment extends Fragment {
             mLayoutAccountInfo.setVisibility(View.VISIBLE);
             mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
             mButtonLogin.setVisibility(View.GONE);
+        }else {
+            mLayoutAccountInfo.setVisibility(View.GONE);
+            mButtonLogin.setVisibility(View.VISIBLE);
         }
 
         TextView buttonLogout = view.findViewById(R.id.txt_logout);

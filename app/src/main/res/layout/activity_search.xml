@@ -19,10 +19,11 @@
         android:focusableInTouchMode="false"
         app:leftButtonDrawable="@drawable/ic_search_24"/>
     <LinearLayout
+        android:id="@+id/layout_suggest"
         android:layout_below="@id/persistentSearchView"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <TextView
             android:textStyle="bold"
             android:paddingTop="5dp"
@@ -38,4 +39,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_below="@id/layout_suggest"
+        android:id="@+id/layout_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/recycler_items"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 </RelativeLayout>

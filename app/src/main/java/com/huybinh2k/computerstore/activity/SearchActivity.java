@@ -2,30 +2,51 @@ package com.huybinh2k.computerstore.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.huybinh2k.computerstore.Adapter.ItemsAdapter;
 import com.huybinh2k.computerstore.Adapter.SuggestionAdapter;
+import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
 import com.huybinh2k.computerstore.database.SuggestionDAO;
+import com.huybinh2k.computerstore.fragment.CategoryFragment;
+import com.huybinh2k.computerstore.model.Items;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
 import com.paulrybitskyi.persistentsearchview.utils.SuggestionCreationUtil;
 import com.paulrybitskyi.persistentsearchview.utils.VoiceRecognitionDelegate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
     private PersistentSearchView mSearchView;
     private SuggestionDAO mSuggestionDAO;
     private GridView mGridViewSuggest;
+    private RecyclerView mRecyclerItems;
+    private ItemsAdapter mItemsAdapter;
+    List<Items> mListItems = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,23 +54,31 @@ public class SearchActivity extends AppCompatActivity {
         mSuggestionDAO = new SuggestionDAO(this);
         fakeDataSuggest();
         initSearchView();
+        initView();
+    }
+
+    private void initView() {
+        mRecyclerItems = findViewById(R.id.recycler_items);
+        mItemsAdapter = new ItemsAdapter(this, mListItems);
+        mRecyclerItems.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerItems.setAdapter(mItemsAdapter);
     }
 
     //TODO BinhBH Cần sửa lại data khi có API
     private void fakeDataSuggest() {
         List<String> list = new ArrayList<>();
-        list.add("Ram DDR4");
-        list.add("USB 64GB");
-        list.add("Lap Top ASUS");
-        list.add("Tai Nghe");
-        list.add("Bàn Phím");
+        list.add("Laptop");
+        list.add("Chuột");
         list.add("Màn Hình");
+        list.add("Ram");
+        list.add("Tai Nghe");
+
         SuggestionAdapter suggestionAdapter = new SuggestionAdapter(list);
         mGridViewSuggest = findViewById(R.id.grid_suggest);
         mGridViewSuggest.setAdapter(suggestionAdapter);
         mGridViewSuggest.setOnItemClickListener((a, v, position, id) -> {
             String s = (String) mGridViewSuggest.getItemAtPosition(position);
-            Toast.makeText(SearchActivity.this, s, Toast.LENGTH_SHORT).show();
+            new GetItemsAsyncTask(SearchActivity.this, s).execute();
         });
     }
 
@@ -67,6 +96,7 @@ public class SearchActivity extends AppCompatActivity {
             }
             if (!query.isEmpty()){
                 mSuggestionDAO.insertSuggest(query);
+                new GetItemsAsyncTask(this, query).execute();
             }
             mSearchView.collapse(true, true);
         });
@@ -84,6 +114,7 @@ public class SearchActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Không có kết nối tới internet", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                new GetItemsAsyncTask(SearchActivity.this, suggestion.getItemModel().getText()).execute();
             }
             @Override
             public void onSuggestionRemoved(SuggestionItem suggestion) {
@@ -120,5 +151,63 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    private static class GetItemsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<SearchActivity> mWeakReference;
+        private boolean mIsSuccess;
+        private String stringSearch;
+        private List<Items> list = new ArrayList<>();
+
+        public GetItemsAsyncTask(SearchActivity activity, String search) {
+            mWeakReference = new WeakReference<>(activity);
+            stringSearch = search;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+                mWeakReference.get().mItemsAdapter.updateList(list);
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            String url = "http://10.0.2.2:8000/api/item/get_list_search?textSearch=" +
+                    stringSearch + "&pageSize=15&page=1&assetID=0";
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONObject("ltItem").getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String id = jsonObject.getString(Constant.ID);
+                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
+                            String price = jsonObject.getString(Constant.Items.PRICE);
+                            Items items = new Items(id, name, img, price);
+                            list.add(items);
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
