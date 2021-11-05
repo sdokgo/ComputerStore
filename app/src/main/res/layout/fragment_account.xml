@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.AccountFragment">
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/layout_info"
         android:background="@color/color_toolbar"
         android:padding="20dp"
