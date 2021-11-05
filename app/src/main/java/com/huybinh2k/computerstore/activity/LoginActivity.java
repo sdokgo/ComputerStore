@@ -17,6 +17,7 @@ import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_REGISTER = 100;
     private static final int REQUEST_LOSS_PASS = 101;
     private EditText mMail, mPass;
+    private LoadingDialog mLoadingDialog;
     private Button mButtonLogin;
-    private final LoginAsyncTask mLoginAsyncTask = new LoginAsyncTask(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mLoadingDialog = new LoadingDialog(this);
         TextView register = findViewById(R.id.register);
         register.setOnClickListener(view -> {
             startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), REQUEST_REGISTER);
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         if (!isDataInvalid()){
-            mLoginAsyncTask.execute();
+            new LoginAsyncTask(this).execute();
         }
     }
 
@@ -106,29 +108,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    private Response response = null;
     private static class LoginAsyncTask extends AsyncTask<Void, Void, Void> {
         private final WeakReference<LoginActivity> mWeakReference;
-        private LoadingDialog mLoadingDialog;
         private boolean mIsSuccess;
         private String mess;
 
 
         public LoginAsyncTask(LoginActivity activity) {
             mWeakReference = new WeakReference<>(activity);
-            mLoadingDialog = new LoadingDialog(mWeakReference.get());
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mLoadingDialog.showDialog();
+            mWeakReference.get().mLoadingDialog.showDialog();
         }
 
 
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            mLoadingDialog.dismissDialog();
+            mWeakReference.get().mLoadingDialog.dismissDialog();
             if (mIsSuccess){
                 Toast.makeText(mWeakReference.get().getApplicationContext(),
                         "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
@@ -158,15 +159,29 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     //TODO BinhBH xử lý thông tin trả về
+                    if (response.body() != null){
+                        mWeakReference.get().response = response;
+                    }
                 }else if (response.code() >= 400){
                     mIsSuccess  = false;
                 }
 
                 try {
                     JSONObject jObj = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    mess = jObj.getString("message");
-                    if (!mess.isEmpty()){
-                        mIsSuccess = false;
+                    if (jObj.toString().contains("message")){
+                        mess = jObj.getString("message");
+                        if (!mess.isEmpty()){
+                            mIsSuccess = false;
+                        }
+                    }
+                    if (mIsSuccess){
+                        Utils.saveBooleanPreferences(mWeakReference.get(), Utils.IS_LOGIN, true);
+                        String token = jObj.getString(Constant.TOKEN_LOGIN);
+                        JSONObject objectUser = jObj.getJSONObject(Constant.USER);
+                        String mail = objectUser.getString("email");
+                        String fullName = objectUser.getString("fullname");
+                        Utils.saveStringPreferences(mWeakReference.get(), Constant.EMAIL, mail);
+                        Utils.saveStringPreferences(mWeakReference.get(), Constant.NAME, fullName);
                     }
                 }catch (JSONException jsonException){
                     jsonException.printStackTrace();

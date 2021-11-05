@@ -1,5 +1,10 @@
 package com.huybinh2k.computerstore.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,23 +21,43 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huybinh2k.computerstore.Adapter.CategoryAdapter;
+import com.huybinh2k.computerstore.Adapter.ItemsAdapter;
+import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.model.CategoryItem;
+import com.huybinh2k.computerstore.model.Items;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by BinhBH on 10/9/2021.
  */
 public class CategoryFragment extends Fragment {
 
+    public static final String CHANGE_CATE_SELECT = "CHANGE_CATE_SELECT";
+    public static final String ID_CATE = "ID_CATE";
     private boolean mIsExpandCategory = false;
-    RecyclerView mRecyclerView;
-    CategoryAdapter mCategoryAdapter;
+    private RecyclerView mRecyclerViewCate, mRecyclerItems;
+    private CategoryAdapter mCategoryAdapter;
+    private ItemsAdapter mItemsAdapter;
     private RelativeLayout mLayoutExpandCate;
     private ImageView mImageMoreCate;
     private ImageView mImageLessCate;
+
+    List<CategoryItem> mListCategory = new ArrayList<>();
+    List<Items> mListItems = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,18 +78,24 @@ public class CategoryFragment extends Fragment {
     }
 
     private void initView(@NonNull View view) {
-        mRecyclerView = view.findViewById(R.id.recycler_select_cate);
+        mRecyclerViewCate = view.findViewById(R.id.recycler_select_cate);
         mLayoutExpandCate = view.findViewById(R.id.layout_expand_cate);
         mImageMoreCate = view.findViewById(R.id.img_more_cate);
         mImageLessCate = view.findViewById(R.id.img_less_cate);
 
-        List<CategoryItem> list = fakeData();
-        mCategoryAdapter = new CategoryAdapter(list, getContext());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerView.setAdapter(mCategoryAdapter);
+        mCategoryAdapter = new CategoryAdapter(mListCategory, getContext());
+        mRecyclerViewCate.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerViewCate.setAdapter(mCategoryAdapter);
 
         mImageMoreCate.setOnClickListener(view1 -> expandCate());
         mImageLessCate.setOnClickListener(view1 -> shrinkCate());
+        GetCateAsyncTask getCateAsyncTask = new GetCateAsyncTask(this);
+        getCateAsyncTask.execute();
+
+        mRecyclerItems = view.findViewById(R.id.recycler_items);
+        mItemsAdapter = new ItemsAdapter(getContext(), mListItems);
+        mRecyclerItems.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerItems.setAdapter(mItemsAdapter);
     }
 
 
@@ -72,37 +103,165 @@ public class CategoryFragment extends Fragment {
      * BinhBH Hiển thị ra tất category
      */
     private void expandCate(){
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerViewCate.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
         mLayoutExpandCate.setVisibility(View.VISIBLE);
         mImageMoreCate.setVisibility(View.INVISIBLE);
-        mRecyclerView.setAdapter(mCategoryAdapter);
+        mRecyclerViewCate.setAdapter(mCategoryAdapter);
     }
 
     /**
      * BinhBH Thu nhỏ lại danh sách category
      */
     private void shrinkCate(){
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecyclerView.setAdapter(mCategoryAdapter);
+        mRecyclerViewCate.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerViewCate.setAdapter(mCategoryAdapter);
         mLayoutExpandCate.setVisibility(View.GONE);
         mImageMoreCate.setVisibility(View.VISIBLE);
     }
 
-    //TODO BinhBH Cần xử lý lấy dữ liệu khi có API
-    private List<CategoryItem> fakeData(){
-        List<CategoryItem> list = new ArrayList<>();
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        list.add(new CategoryItem("Máy tính", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
-        list.add(new CategoryItem("Điện thoại","https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"));
-        return list;
+
+    private static class GetCateAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<CategoryFragment> mWeakReference;
+        private boolean mIsSuccess;
+        List<CategoryItem> listCategory = new ArrayList<>();
+
+        public GetCateAsyncTask(CategoryFragment fragment) {
+            mWeakReference = new WeakReference<>(fragment);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+                mWeakReference.get().mCategoryAdapter.updateListCate(listCategory);
+                if (!listCategory.isEmpty()){
+                    new GetItemsAsyncTask(mWeakReference.get(), listCategory.get(0).getID()).execute();
+                }
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://10.0.2.2:8000/api/asset/get_list?parentID=0")
+                    .method("GET", null)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONArray("ltAsset");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String id = jsonObject.getString(Constant.ID);
+                            String name = jsonObject.getString(Constant.Category.NAME);
+                            String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
+                            CategoryItem categoryItem = new CategoryItem(id, name, img);
+                            listCategory.add(categoryItem);
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private BroadcastReceiver mReceiverChangeCateSelect = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String idCate = intent.getStringExtra(ID_CATE);
+            if (!idCate.isEmpty()){
+                new GetItemsAsyncTask(CategoryFragment.this, idCate).execute();
+            }
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CHANGE_CATE_SELECT);
+        if (getContext() != null){
+            getContext().registerReceiver(mReceiverChangeCateSelect, intentFilter);
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (getContext() != null){
+            getContext().unregisterReceiver(mReceiverChangeCateSelect);
+        }
+    }
+
+    private static class GetItemsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<CategoryFragment> mWeakReference;
+        private boolean mIsSuccess;
+        private String idCate;
+        private List<Items> list = new ArrayList<>();
+
+        public GetItemsAsyncTask(CategoryFragment fragment, String id) {
+            mWeakReference = new WeakReference<>(fragment);
+            idCate = id;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+                mWeakReference.get().mItemsAdapter.updateList(list);
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            String url = "http://10.0.2.2:8000/api/item/get_list_search?assetID=" +
+                    idCate + "&pageSize=15&page=1";
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONObject("ltItem").getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String id = jsonObject.getString(Constant.ID);
+                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
+                            String price = jsonObject.getString(Constant.Items.PRICE);
+                            Items items = new Items(id, name, img, price);
+                            list.add(items);
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

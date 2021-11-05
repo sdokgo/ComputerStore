@@ -32,6 +32,19 @@ public class Constant {
     public static final String PASSWORD ="password";
     public static final String PASS_CONFIRM = "password_confirmation";
     public static final String OTP = "OTP";
+    public static final String TOKEN_LOGIN = "token";
+    public static final String USER = "user";
+    public static final String IMAGE = "image";
+    public static final String ID = "id";
+
+    public static class Category{
+        public static final String NAME = "asset_name";
+    }
+
+    public static class Items{
+        public static final String NAME = "item_name";
+        public static final String PRICE = "price";
+    }
 
 
 

@@ -1,14 +1,47 @@
 package com.huybinh2k.computerstore;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
 /**
  * Created by BinhBH on 11/4/2021.
  */
 public class Utils {
+    private static final String STORAGE ="Store";
+    public static final String IS_LOGIN ="IS_LOGIN";
+
     public static boolean isConnectedInternet(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    public static void saveStringPreferences(Context context, String key, String value){
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(key,value);
+        editor.apply();
+    }
+
+    public static String getStringPreferences(Context context, String key) {
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        return mPreferences.getString(key, "");
+    }
+
+    public static void saveBooleanPreferences(Context context, String key, boolean value){
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(key,value);
+        editor.apply();
+    }
+
+    public static boolean getBooleanPreferences(Context context, String key) {
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        return mPreferences.getBoolean(key, false);
+    }
+
+    public static void removePreferences(Context context, String key) {
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        mPreferences.edit().remove(key).apply();
     }
 }

@@ -45,4 +45,19 @@
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/layout_items"
+        android:layout_below="@id/layout_cate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/recycler_items"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+
 </RelativeLayout>
