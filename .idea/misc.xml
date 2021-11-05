@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/drawable/border.xml" value="0.2657407407407407" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/activity_login.xml" value="0.1648148148148148" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/activity_register.xml" value="0.22314814814814815" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/category_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/fragment_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/fragment_cart.xml" value="0.2" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/fragment_category.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/fragment_notification.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/image_slider_layout_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/item_product_in_cart.xml" value="0.2" />
+        <entry key="..\:/CNPM/ComputerStore/app/src/main/res/layout/item_suggestion.xml" value="0.25416666666666665" />
         <entry key="..\:/ComputerStore/app/src/main/res/drawable/border.xml" value="0.1046875" />
         <entry key="..\:/ComputerStore/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/ComputerStore/app/src/main/res/layout/activity_register.xml" value="0.1" />
