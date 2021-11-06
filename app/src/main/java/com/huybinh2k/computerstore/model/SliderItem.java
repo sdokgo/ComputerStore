@@ -2,15 +2,23 @@ package com.huybinh2k.computerstore.model;
 
 public class SliderItem {
 
-    private String description;
-    private String imageUrl;
+    private String id;
 
-    public String getDescription() {
-        return description;
+    public SliderItem(String id, String title, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.imageUrl = imageUrl;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    private String title;
+    private String imageUrl;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImageUrl() {
@@ -19,5 +27,9 @@ public class SliderItem {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+        return id;
     }
 }

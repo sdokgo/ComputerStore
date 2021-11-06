@@ -1,16 +1,17 @@
 package com.huybinh2k.computerstore.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.activity.DetailsItemActivity;
 import com.huybinh2k.computerstore.model.SliderItem;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
@@ -23,15 +24,16 @@ import java.util.List;
 public class SliderAdapter extends
         SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 
-    private Context context;
+    private Context mContext;
     private List<SliderItem> mSliderItems = new ArrayList<>();
+    public static final String SLIDE_ID = "SLIDE_ID";
 
     public SliderAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     public SliderAdapter(Context context, List<SliderItem> sliderItems) {
-        this.context = context;
+        this.mContext = context;
         this.mSliderItems = sliderItems;
     }
 
@@ -61,7 +63,7 @@ public class SliderAdapter extends
 
         SliderItem sliderItem = mSliderItems.get(position);
 
-        viewHolder.textViewDescription.setText(sliderItem.getDescription());
+        viewHolder.textViewDescription.setText(sliderItem.getTitle());
         viewHolder.textViewDescription.setTextSize(16);
         viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
@@ -69,12 +71,11 @@ public class SliderAdapter extends
                 .fitCenter()
                 .into(viewHolder.imageViewBackground);
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        viewHolder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, DetailsItemActivity.class);
+            intent.putExtra(SLIDE_ID, sliderItem.getId());
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
