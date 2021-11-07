@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.activity.DetailsItemActivity;
 import com.huybinh2k.computerstore.model.SliderItem;
@@ -26,7 +27,6 @@ public class SliderAdapter extends
 
     private Context mContext;
     private List<SliderItem> mSliderItems = new ArrayList<>();
-    public static final String SLIDE_ID = "SLIDE_ID";
 
     public SliderAdapter(Context context) {
         this.mContext = context;
@@ -73,7 +73,7 @@ public class SliderAdapter extends
 
         viewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, DetailsItemActivity.class);
-            intent.putExtra(SLIDE_ID, sliderItem.getId());
+            intent.putExtra(Constant.ID, sliderItem.getId());
             mContext.startActivity(intent);
         });
     }

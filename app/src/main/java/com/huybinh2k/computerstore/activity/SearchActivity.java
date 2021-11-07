@@ -194,7 +194,7 @@ public class SearchActivity extends AppCompatActivity {
                             String id = jsonObject.getString(Constant.ID);
                             String name  = jsonObject.getString(Constant.Items.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            String price = jsonObject.getString(Constant.Items.PRICE);
+                            int price = jsonObject.getInt(Constant.Items.PRICE);
                             Items items = new Items(id, name, img, price);
                             list.add(items);
                         }
