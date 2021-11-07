@@ -56,7 +56,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        android:background="@color/gray"
+        android:background="@color/gray2"
         android:visibility="visible"
         android:paddingTop="20dp">
 
