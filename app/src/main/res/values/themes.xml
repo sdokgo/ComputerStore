@@ -39,4 +39,8 @@
     <style name="ThemeCategory">
         <item name="background">@drawable/background_cate</item>
     </style>
+
+    <style name="ToolbarColored" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 </resources>

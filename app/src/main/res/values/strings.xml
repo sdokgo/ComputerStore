@@ -30,4 +30,12 @@
     <string name="new_password">Mật khẩu mới:</string>
     <string name="enter_new_pass">Nhập mật khẩu mới</string>
     <string name="change_pass">Đổi mật khẩu</string>
+    <string name="text_more">Xem thêm</string>
+    <string name="price">Giá tiền</string>
+    <string name="discount">Khuyến mại còn</string>
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="thong_so">Thông số kĩ thuật</string>
+    <string name="description">Mô tả sản phẩm</string>
+    <string name="rut_gon">Thu gọn</string>
+    <string name="quality">Số lượng</string>
 </resources>
