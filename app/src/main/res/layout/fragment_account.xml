@@ -5,21 +5,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.AccountFragment">
+
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/color_toolbar"
         android:padding="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_border_width="1dp"
-            app:civ_border_color="@color/white"
             android:id="@+id/profile_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="1dp" />
 
         <TextView
             android:id="@+id/text_name_person"
@@ -31,24 +32,127 @@
             android:paddingStart="10dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/txt_logout"
-            android:layout_marginRight="20dp"
-            android:text="Đăng xuất"
-            android:padding="5dp"
-            android:background="@drawable/border"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:text="Đăng xuất" />
     </RelativeLayout>
 
+
     <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/layout_btnFunction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_info"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/gray"
+        android:visibility="visible"
+        android:paddingTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_History"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:drawableLeft="@drawable/history"
+            android:paddingLeft="20dp"
+            android:text="Lịch sử mua hàng"
+            android:textAlignment="viewStart" />
+
+        <RelativeLayout
+            android:id="@+id/layout_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_History">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="0dp"
+                android:background="@drawable/border"
+                android:drawableLeft="@drawable/setting"
+                android:drawableRight="@drawable/more"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Thiết lập tài khoản"
+                android:textAlignment="viewStart" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ChangeInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_setting"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/border"
+                android:drawableLeft="@drawable/changeinfo"
+                android:paddingLeft="15dp"
+                android:text="Thay đổi thông tin"
+                android:textAlignment="viewStart"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_ChangeInfo"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/border"
+                android:drawableLeft="@drawable/changepw"
+                android:paddingLeft="15dp"
+                android:text="Thay đổi mật khẩu"
+                android:textAlignment="viewStart"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_Help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_setting"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border"
+            android:drawableLeft="@drawable/support"
+            android:paddingLeft="20dp"
+            android:text="Trung tâm trợ giúp"
+            android:textAlignment="viewStart" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_Logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_Help"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border"
+            android:drawableLeft="@drawable/logout"
+            android:paddingLeft="20dp"
+            android:text="Đăng xuất"
+            android:textAlignment="viewStart" />
+    </RelativeLayout>
+
     <Button
         android:id="@+id/btn_go_to_login_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
         android:text="@string/login_button" />
 
 </RelativeLayout>
