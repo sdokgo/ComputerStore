@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ public class AccountFragment extends Fragment {
     private RelativeLayout mLayoutAccountInfo;
     private TextView mAccountName;
     private Button mButtonLogin;
+    private AppCompatButton btn_history,btn_setting,btn_changeInfo,btn_ChangePassword,btn_Help,btn_Logout;
+    private boolean isShow = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,12 @@ public class AccountFragment extends Fragment {
         });
         mLayoutAccountInfo = view.findViewById(R.id.layout_info);
         mAccountName = view.findViewById(R.id.text_name_person);
+        btn_history = view.findViewById(R.id.btn_History);
+        btn_setting = view.findViewById(R.id.btn_setting);
+        btn_changeInfo = view.findViewById(R.id.btn_ChangeInfo);
+        btn_ChangePassword = view.findViewById(R.id.btn_ChangePassword);
+        btn_Help = view.findViewById(R.id.btn_Help);
+        btn_Logout = view.findViewById(R.id.btn_Logout);
 
         if (Utils.getBooleanPreferences(getContext(), Utils.IS_LOGIN)){
             mLayoutAccountInfo.setVisibility(View.VISIBLE);
@@ -64,6 +73,22 @@ public class AccountFragment extends Fragment {
 
         TextView buttonLogout = view.findViewById(R.id.txt_logout);
         buttonLogout.setOnClickListener(view1 -> Logout());
+
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isShow){
+                    btn_changeInfo.setVisibility(View.VISIBLE);
+                    btn_ChangePassword.setVisibility(View.VISIBLE);
+                    isShow = true;
+                }
+                else {
+                    btn_changeInfo.setVisibility(View.GONE);
+                    btn_ChangePassword.setVisibility(View.GONE);
+                    isShow = false;
+                }
+            }
+        });
     }
 
     private void Logout() {
