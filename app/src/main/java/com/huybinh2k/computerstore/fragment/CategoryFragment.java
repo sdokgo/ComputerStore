@@ -181,6 +181,7 @@ public class CategoryFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
+                        listCategory.add(new CategoryItem("0", "Tất cả", ""));
                         JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
                         JSONArray jsonArray = object.getJSONArray("ltAsset");
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -191,6 +192,7 @@ public class CategoryFragment extends Fragment {
                             CategoryItem categoryItem = new CategoryItem(id, name, img);
                             listCategory.add(categoryItem);
                         }
+
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
                     }
@@ -262,6 +264,7 @@ public class CategoryFragment extends Fragment {
                     mWeakReference.get().mItemsAdapter.addDataFromPage(list);
                     mWeakReference.get().isLoadingItems = true;
                 }else {
+                    mWeakReference.get().mRecyclerItems.scrollToPosition(0);
                     mWeakReference.get().mItemsAdapter.updateList(list);
                 }
             }
@@ -296,7 +299,8 @@ public class CategoryFragment extends Fragment {
                             String name  = jsonObject.getString(Constant.Items.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
                             int price = jsonObject.getInt(Constant.Items.PRICE);
-                            Items items = new Items(id, name, img, price);
+                            int discountPrice = jsonObject.getInt("promotional_price");
+                            Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
                         }
                     } catch (JSONException jsonException) {

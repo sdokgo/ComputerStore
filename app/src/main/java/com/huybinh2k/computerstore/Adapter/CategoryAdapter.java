@@ -47,8 +47,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         CategoryItem categoryItem = mListCate.get(position);
         holder.textName.setText(categoryItem.getNameCategory());
-        Uri uriImage = Uri.parse(categoryItem.getUriImage());
-        Glide.with(mContext).load(uriImage).into(holder.imageView);
+        if (categoryItem.getID().equals("0")){
+            holder.imageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_all_24));
+        }else {
+            Uri uriImage = Uri.parse(categoryItem.getUriImage());
+            Glide.with(mContext).load(uriImage).into(holder.imageView);
+        }
         holder.layout.setOnClickListener(view ->{
             int lastSelect = mPosCateSelect;
             mPosCateSelect = holder.getAdapterPosition();

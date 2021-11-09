@@ -24,6 +24,14 @@ public class Items {
         this.mPrice = price;
     }
 
+    public Items(String mId, String mName, String mPathImage, int price, int discount) {
+        this.mId = mId;
+        this.mName = mName;
+        this.mPathImage = mPathImage;
+        this.mPrice = price;
+        this.mDiscountPrice = discount;
+    }
+
     public Items(String mId, String mName, String mPathImage, int mPrice, int mDiscountPrice, int mQuality, String mDescription, String mStatus) {
         this.mId = mId;
         this.mName = mName;
@@ -57,7 +65,7 @@ public class Items {
         return mPathImage;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return mPrice;
     }
 
@@ -65,7 +73,7 @@ public class Items {
         return  mId;
     }
 
-    public int getDiscountPrice() {
+    public float getDiscountPrice() {
         return mDiscountPrice;
     }
 
