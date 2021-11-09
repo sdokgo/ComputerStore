@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.AccountFragment">
 
@@ -10,7 +11,6 @@
         android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_toolbar"
         android:padding="20dp"
         android:visibility="gone">
 
@@ -27,22 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/txt_logout"
             android:layout_toRightOf="@id/profile_image"
             android:paddingStart="10dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txt_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border"
-            android:padding="5dp"
-            android:text="Đăng xuất" />
     </RelativeLayout>
 
 
@@ -57,18 +46,8 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:background="@color/gray2"
-        android:visibility="visible"
-        android:paddingTop="20dp">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_History"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:drawableLeft="@drawable/history"
-            android:paddingLeft="20dp"
-            android:text="Lịch sử mua hàng"
-            android:textAlignment="viewStart" />
+        android:paddingTop="20dp"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/layout_setting"
@@ -86,6 +65,7 @@
                 android:background="@drawable/border"
                 android:drawableLeft="@drawable/setting"
                 android:drawableRight="@drawable/more"
+                android:drawablePadding="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="Thiết lập tài khoản"
@@ -101,6 +81,7 @@
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/border"
                 android:drawableLeft="@drawable/changeinfo"
+                android:drawablePadding="10dp"
                 android:paddingLeft="15dp"
                 android:text="Thay đổi thông tin"
                 android:textAlignment="viewStart"
@@ -116,11 +97,23 @@
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/border"
                 android:drawableLeft="@drawable/changepw"
+                android:drawablePadding="10dp"
                 android:paddingLeft="15dp"
                 android:text="Thay đổi mật khẩu"
                 android:textAlignment="viewStart"
                 android:visibility="gone" />
         </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_History"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:drawableLeft="@drawable/history"
+            android:drawablePadding="10dp"
+            android:paddingLeft="20dp"
+            android:text="Lịch sử mua hàng"
+            android:textAlignment="viewStart" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_Help"
@@ -130,6 +123,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/border"
             android:drawableLeft="@drawable/support"
+            android:drawablePadding="10dp"
             android:paddingLeft="20dp"
             android:text="Trung tâm trợ giúp"
             android:textAlignment="viewStart" />
@@ -142,6 +136,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/border"
             android:drawableLeft="@drawable/logout"
+            android:drawablePadding="10dp"
             android:paddingLeft="20dp"
             android:text="Đăng xuất"
             android:textAlignment="viewStart" />
