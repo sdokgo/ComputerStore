@@ -1,8 +1,11 @@
 package com.huybinh2k.computerstore;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * Created by BinhBH on 11/4/2021.
@@ -43,5 +46,12 @@ public class Utils {
     public static void removePreferences(Context context, String key) {
         SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         mPreferences.edit().remove(key).apply();
+    }
+
+    public static void hideKeyboard(View view, Activity activity){
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

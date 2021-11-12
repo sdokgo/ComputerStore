@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.huybinh2k.computerstore.Adapter.ItemsAdapter;
 import com.huybinh2k.computerstore.Adapter.SliderAdapter;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
+import com.huybinh2k.computerstore.activity.ComputerStoreActivity;
 import com.huybinh2k.computerstore.model.Items;
 import com.huybinh2k.computerstore.model.SliderItem;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -49,6 +49,8 @@ public class HomeFragment extends Fragment {
     private SliderAdapter mSliderAdapter;
     private List<Items> mListNew = new ArrayList<>();
     private List<Items> mListDiscount= new ArrayList<>();
+    private View mLayoutDiscount, mLayoutNew;
+    private View mMoreDiscount, mMoreNew;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +82,24 @@ public class HomeFragment extends Fragment {
         mRecyclerDiscount.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerNew.setAdapter(mItemsNewAdapter);
         mRecyclerDiscount.setAdapter(mItemsDiscountAdapter);
+        mLayoutDiscount = view.findViewById(R.id.layout_giam_gia);
+        mLayoutNew = view.findViewById(R.id.layout_new);
+        mMoreDiscount = view.findViewById(R.id.text_more_discount);
+        mMoreNew = view.findViewById(R.id.text_more_new);
+        mMoreNew.setOnClickListener(view1 -> {
+            if (getActivity() instanceof ComputerStoreActivity){
+                ((ComputerStoreActivity) getActivity()).changePage(1,2, "&isNew=1");
+            }
+        });
 
-        new GetItemsNewAsyncTask(this).execute();
+        mMoreDiscount.setOnClickListener(view1 -> {
+            if (getActivity() instanceof ComputerStoreActivity){
+                ((ComputerStoreActivity) getActivity()).changePage(1,1, "&isDiscount=1");
+            }
+        });
+
         new GetItemsDiscountAsyncTask(this).execute();
+        new GetItemsNewAsyncTask(this).execute();
     }
 
     private void initSliderView(@NonNull View view) {
@@ -174,6 +191,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (mIsSuccess){
+                mWeakReference.get().mLayoutNew.setVisibility(View.VISIBLE);
                 mWeakReference.get().mItemsNewAdapter.updateList(list);
             }
         }
@@ -231,6 +249,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (mIsSuccess){
+                mWeakReference.get().mLayoutDiscount.setVisibility(View.VISIBLE);
                 mWeakReference.get().mItemsDiscountAdapter.updateList(list);
             }
         }

@@ -57,7 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             int lastSelect = mPosCateSelect;
             mPosCateSelect = holder.getAdapterPosition();
             mCateSelect = categoryItem;
-            sendBroadCastChangeCate();
+            sendBroadCastChangeCate(position);
             notifyItemChanged(position);
             notifyItemChanged(lastSelect);
         });
@@ -69,10 +69,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     }
 
-    private void sendBroadCastChangeCate() {
+    private void sendBroadCastChangeCate(int pos) {
         Intent intent = new Intent();
         intent.setAction(CategoryFragment.CHANGE_CATE_SELECT);
         intent.putExtra(CategoryFragment.ID_CATE, mCateSelect.getID());
+        intent.putExtra(CategoryFragment.POSITION_CATE, pos);
         mContext.sendBroadcast(intent);
     }
 
@@ -100,8 +101,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         notifyDataSetChanged();
     }
 
-    public void setPositionCateSelect(int mPosCateSelect) {
-        this.mPosCateSelect = mPosCateSelect;
-        notifyItemChanged(mPosCateSelect);
+    public CategoryItem getCateSelect() {
+        return mCateSelect;
+    }
+
+    public void setPositionCateSelect(int pos) {
+        int lastPost = mPosCateSelect;
+        this.mPosCateSelect = pos;
+        if (pos == -1){
+            mCateSelect = null;
+        }else {
+            mCateSelect = mListCate.get(pos);
+            notifyItemChanged(pos);
+        }
+        notifyItemChanged(lastPost);
     }
 }

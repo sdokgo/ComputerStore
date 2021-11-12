@@ -20,6 +20,7 @@ import com.huybinh2k.computerstore.model.Items;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,9 +28,16 @@ import java.util.List;
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemHolder> {
 
+    public static final int SORT_BY_NONE = 0;
+    public static final int SORT_BY_MAX_TO_MIN = 1;
+    public static final int SORT_BY_MIN_TO_MAX = -1;
+    public static final int SORT_BY_A_TO_Z = 2;
+    public static final int SORT_BY_Z_TO_A = -2;
+
     private List<Items> mListItems;
     private final Context mContext;
-    NumberFormat numberFormat = new DecimalFormat("#,###");
+    private NumberFormat numberFormat = new DecimalFormat("#,###");
+    private int mSortBy;
 
     public ItemsAdapter(Context mContext, List<Items> list) {
         this.mContext = mContext;
@@ -103,4 +111,28 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemHolder> 
         mListItems.addAll(list);
         notifyDataSetChanged();
     }
+
+    public void sort(int sort){
+        mSortBy = sort;
+        mListItems.sort(comparator);
+        notifyDataSetChanged();
+    }
+
+    private Comparator comparator = new Comparator<Items>() {
+        @Override
+        public int compare(Items items, Items t1) {
+            switch (mSortBy){
+                case SORT_BY_MAX_TO_MIN:
+                    return Float.compare(items.getDiscountPrice(), t1.getDiscountPrice());
+                case SORT_BY_MIN_TO_MAX:
+                    return Float.compare(t1.getDiscountPrice(),items.getDiscountPrice());
+                case SORT_BY_A_TO_Z:
+                    return items.getName().compareToIgnoreCase(t1.getName());
+                case SORT_BY_Z_TO_A:
+                    return t1.getName().compareToIgnoreCase(items.getName());
+                default:
+                    return 0;
+            }
+        }
+    };
 }
