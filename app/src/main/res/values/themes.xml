@@ -41,6 +41,7 @@
     </style>
 
     <style name="ToolbarColored" parent="AppTheme">
+        <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 </resources>

@@ -37,6 +37,8 @@
 
 
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/layout_giam_gia"
             android:layout_below="@id/card_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -45,12 +47,12 @@
                 android:id="@+id/title_giam_gia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/text_more"
+                android:layout_toStartOf="@id/text_more_discount"
                 android:maxLines="2"
                 android:paddingStart="10dp"
                 android:text="Mặt hàng đang khuyến mại"
                 android:textSize="16sp"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold"/>
             <TextView
                 android:textColor="@color/blue"
                 android:text="@string/text_more"
@@ -58,17 +60,52 @@
                 android:textStyle="bold"
                 android:paddingEnd="10dp"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/text_more"
+                android:id="@+id/text_more_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@id/title_giam_gia"
                 android:id="@+id/recycler_giam_gia"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_giam_gia" />
         </RelativeLayout>
-    </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/layout_new"
+            android:layout_below="@id/layout_giam_gia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/title_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/text_more_new"
+                android:maxLines="2"
+                android:paddingStart="10dp"
+                android:text="Mặt hàng mới"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:textColor="@color/blue"
+                android:text="@string/text_more"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingEnd="10dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/text_more_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_new" />
+        </RelativeLayout>
+</RelativeLayout>
 </ScrollView>
 

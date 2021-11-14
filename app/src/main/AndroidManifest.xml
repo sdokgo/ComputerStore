@@ -18,8 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputerStore"
-        android:usesCleartextTraffic="true"
-        android:windowSoftInputMode="adjustPan">
+        android:windowSoftInputMode="adjustResize|stateHidden|adjustPan">
         <activity
             android:name=".activity.HelpActivity"
             android:exported="true" />
@@ -28,9 +27,6 @@
             android:exported="true" />
         <activity
             android:name=".activity.DetailsItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CartActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ChangePasswordActivity"

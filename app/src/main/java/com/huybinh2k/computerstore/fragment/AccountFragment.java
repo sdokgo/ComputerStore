@@ -77,8 +77,7 @@ public class AccountFragment extends Fragment {
             mButtonLogin.setVisibility(View.VISIBLE);
         }
 
-        btn_Logout.setOnClickListener(view1 -> Logout());
-
+        btn_Logout.setOnClickListener(view1-> Logout());
 
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override

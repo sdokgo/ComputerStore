@@ -6,7 +6,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -14,7 +16,6 @@ import com.huybinh2k.computerstore.Adapter.PagerAdapter;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.fragment.AccountFragment;
-import com.huybinh2k.computerstore.fragment.CartFragment;
 import com.huybinh2k.computerstore.fragment.CategoryFragment;
 import com.huybinh2k.computerstore.fragment.HomeFragment;
 import com.huybinh2k.computerstore.fragment.NotificationFragment;
@@ -25,6 +26,9 @@ import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
  */
 public class ComputerStoreActivity extends AppCompatActivity {
 
+    private RelativeLayout mLayoutToolBar;
+    private ViewPager2 mViewpager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,23 +37,25 @@ public class ComputerStoreActivity extends AppCompatActivity {
         initSearchView();
     }
 
+    CategoryFragment categoryFragment = new CategoryFragment();
 
     private void initView(){
-        ViewPager2 viewpager = findViewById(R.id.view_pager);
+        mLayoutToolBar = findViewById(R.id.layout_tool_bar);
+        mViewpager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tabs);
 
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), getLifecycle());
         pagerAdapter.addFragment(new HomeFragment());
-        pagerAdapter.addFragment(new CategoryFragment());
+        pagerAdapter.addFragment(categoryFragment);
         pagerAdapter.addFragment(new NotificationFragment());
         pagerAdapter.addFragment(new AccountFragment());
 
-        viewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        viewpager.setAdapter(pagerAdapter);
+        mViewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        mViewpager.setAdapter(pagerAdapter);
 
-        viewpager.setUserInputEnabled(false); //false disable viewpager swiping, true enable
-        new TabLayoutMediator(tabLayout, viewpager,
+        mViewpager.setUserInputEnabled(false); //false disable viewpager swiping, true enable
+        new TabLayoutMediator(tabLayout, mViewpager,
                 (tab, position) -> {
                     tab.setIcon(Constant.arrImage[position]);
                     tab.setText(getResources().getText(Constant.arrName[position]));
@@ -75,5 +81,22 @@ public class ComputerStoreActivity extends AppCompatActivity {
         searchView.getLeftBtnIv().setOnClickListener(view ->{
             startActivity(new Intent(ComputerStoreActivity.this, SearchActivity.class));
         });
+    }
+
+    public void showHideSearchView(){
+        if (mLayoutToolBar.getVisibility() == View.GONE){
+            mLayoutToolBar.setVisibility(View.VISIBLE);
+        }else {
+            mLayoutToolBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void showSearchBar(){
+        mLayoutToolBar.setVisibility(View.VISIBLE);
+    }
+
+    public void changePage(int page,int valueMore, String s){
+        mViewpager.setCurrentItem(page);
+        categoryFragment.moreItemsFromHome(valueMore, s);
     }
 }

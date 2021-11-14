@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_fragment_cate"
+    android:visibility="gone"
     tools:context=".fragment.CategoryFragment">
 
     <RelativeLayout
@@ -11,8 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-            android:paddingStart="10dp"
-            android:textSize="16sp"
+            android:paddingStart="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/img_less_cate"
             android:text="@string/all_cate"
@@ -49,19 +52,58 @@
             android:src="@drawable/ic_baseline_expand_more_24" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_select_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_cate">
+
+        <TextView
+            android:textSize="16sp"
+            android:background="@drawable/border_item_filter"
+            android:padding="10dp"
+            android:id="@+id/sort_by_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/max_to_min" />
+
+        <TextView
+            android:id="@+id/sort_by_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/sort_by_price"
+            android:background="@drawable/border_item_filter"
+            android:padding="10dp"
+            android:text="@string/a_to_z"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/image_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_filter_alt_24" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/layout_items"
-        android:layout_below="@id/layout_cate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_select_filter">
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_centerHorizontal="true"
             android:id="@+id/recycler_items"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
+    <include layout="@layout/layout_advance_search"/>
 
 </RelativeLayout>

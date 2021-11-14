@@ -132,7 +132,7 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
         android:textColor="@android:color/white"
-        android:background="@drawable/border_button"
+        android:background="@drawable/border_button_blue"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/frame_pass2"

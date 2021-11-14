@@ -38,4 +38,18 @@
     <string name="description">Mô tả sản phẩm</string>
     <string name="rut_gon">Thu gọn</string>
     <string name="quality">Số lượng</string>
+    <string name="filter_search">Bộ lọc tìm kiếm</string>
+    <string name="reset_filter">Thiết lập lại</string>
+    <string name="ok_filter">Xác nhận</string>
+    <string name="min_price">Tối thiểu</string>
+    <string name="max_price">Tối đa</string>
+    <string name="cate">Danh mục</string>
+    <string name="manu">Thương Hiệu</string>
+    <string name="status">Tình trạng</string>
+    <string name="filter_price">Khoảng giá</string>
+    <string name="max_to_min">Giá từ cao tới thấp</string>
+    <string name="min_to_max">Giá từ thấp tới cao</string>
+    <string name="a_to_z">Từ A đến Z</string>
+    <string name="z_to_a">Từ Z đến A</string>
+    <string name="status2">Trạng thái</string>
 </resources>
