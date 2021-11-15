@@ -21,6 +21,9 @@ import android.widget.TextView;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
+import com.huybinh2k.computerstore.activity.ChangePasswordActivity;
+import com.huybinh2k.computerstore.activity.HelpActivity;
+import com.huybinh2k.computerstore.activity.InfomationActivity;
 import com.huybinh2k.computerstore.activity.LoginActivity;
 
 /**
@@ -29,7 +32,7 @@ import com.huybinh2k.computerstore.activity.LoginActivity;
 public class AccountFragment extends Fragment {
 
     private static final int REQUEST_LOGIN = 123;
-    private RelativeLayout mLayoutAccountInfo;
+    private RelativeLayout mLayoutAccountInfo,layoutBtnFunction;
     private TextView mAccountName;
     private Button mButtonLogin;
     private AppCompatButton btn_history,btn_setting,btn_changeInfo,btn_ChangePassword,btn_Help,btn_Logout;
@@ -54,6 +57,7 @@ public class AccountFragment extends Fragment {
             startActivityForResult(new Intent(getContext(), LoginActivity.class), REQUEST_LOGIN);
         });
         mLayoutAccountInfo = view.findViewById(R.id.layout_info);
+        layoutBtnFunction = view.findViewById(R.id.layout_btnFunction);
         mAccountName = view.findViewById(R.id.text_name_person);
         btn_history = view.findViewById(R.id.btn_History);
         btn_setting = view.findViewById(R.id.btn_setting);
@@ -64,10 +68,12 @@ public class AccountFragment extends Fragment {
 
         if (Utils.getBooleanPreferences(getContext(), Utils.IS_LOGIN)){
             mLayoutAccountInfo.setVisibility(View.VISIBLE);
+            layoutBtnFunction.setVisibility(View.VISIBLE);
             mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
             mButtonLogin.setVisibility(View.GONE);
         }else {
             mLayoutAccountInfo.setVisibility(View.GONE);
+            layoutBtnFunction.setVisibility(View.GONE);
             mButtonLogin.setVisibility(View.VISIBLE);
         }
 
@@ -88,6 +94,12 @@ public class AccountFragment extends Fragment {
                 }
             }
         });
+        btn_ChangePassword.setOnClickListener(v ->
+                startActivity(new Intent(AccountFragment.this.getActivity(), ChangePasswordActivity.class)));
+        btn_changeInfo.setOnClickListener(v ->
+                startActivity(new Intent(AccountFragment.this.getActivity(), InfomationActivity.class)));
+        btn_Help.setOnClickListener(v ->
+                startActivity(new Intent(AccountFragment.this.getActivity(), HelpActivity.class)));
     }
 
     private void Logout() {
@@ -102,6 +114,7 @@ public class AccountFragment extends Fragment {
                         Utils.removePreferences(getContext(), Constant.EMAIL);
                         mButtonLogin.setVisibility(View.VISIBLE);
                         mLayoutAccountInfo.setVisibility(View.GONE);
+                        layoutBtnFunction.setVisibility(View.GONE);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -122,6 +135,7 @@ public class AccountFragment extends Fragment {
         if (requestCode == REQUEST_LOGIN){
             if (resultCode == Activity.RESULT_OK){
                 mLayoutAccountInfo.setVisibility(View.VISIBLE);
+                layoutBtnFunction.setVisibility(View.VISIBLE);
                 mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
                 mButtonLogin.setVisibility(View.GONE);
             }
