@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 public class Utils {
     private static final String STORAGE ="Store";
     public static final String IS_LOGIN ="IS_LOGIN";
+    public static final String NUMBER_ITEMS_CART = "NUMBER_ITEMS_CART";
 
     public static boolean isConnectedInternet(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -41,6 +42,18 @@ public class Utils {
     public static boolean getBooleanPreferences(Context context, String key) {
         SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         return mPreferences.getBoolean(key, false);
+    }
+
+    public static void saveIntPreferences(Context context, String key, int value){
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(key,value);
+        editor.apply();
+    }
+
+    public static int getIntPreferences(Context context, String key) {
+        SharedPreferences mPreferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
+        return mPreferences.getInt(key, 0);
     }
 
     public static void removePreferences(Context context, String key) {

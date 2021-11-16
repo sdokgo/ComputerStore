@@ -133,8 +133,9 @@ public class LoginActivity extends AppCompatActivity {
             if (mIsSuccess){
                 Toast.makeText(mWeakReference.get().getApplicationContext(),
                         "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                mWeakReference.get().setResult(Activity.RESULT_OK);
-                mWeakReference.get().finish();
+                new GetCountCartAsyncTask(mWeakReference.get(), true).execute();
+                Utils.hideKeyboard(mWeakReference.get().mButtonLogin, mWeakReference.get());
+
             }else {
                 Toast.makeText(mWeakReference.get().getApplicationContext(), mess, Toast.LENGTH_SHORT).show();
             }
@@ -158,7 +159,6 @@ public class LoginActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
-                    //TODO BinhBH xử lý thông tin trả về
                     if (response.body() != null){
                         mWeakReference.get().response = response;
                     }
@@ -182,9 +182,68 @@ public class LoginActivity extends AppCompatActivity {
                         String fullName = objectUser.getString("fullname");
                         Utils.saveStringPreferences(mWeakReference.get(), Constant.EMAIL, mail);
                         Utils.saveStringPreferences(mWeakReference.get(), Constant.NAME, fullName);
+                        Utils.saveStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN, token);
                     }
                 }catch (JSONException jsonException){
                     jsonException.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public static class GetCountCartAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<Activity> mWeakReference;
+        private boolean mIsSuccess;
+        private String token;
+        private boolean isLogin;
+        int count = 0;
+
+        public GetCountCartAsyncTask(Activity activity, boolean isLogin) {
+            mWeakReference = new WeakReference<>(activity);
+            this.isLogin = isLogin;
+            token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+                Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, count);
+                if (isLogin){
+                    mWeakReference.get().setResult(Activity.RESULT_OK);
+                    mWeakReference.get().finish();
+                }
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://10.0.2.2:8000/api/cart/get_cart")
+                    .method("GET", null)
+                    .addHeader("Authorization","Bearer "+ token)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONArray("ltItem");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            count++;
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

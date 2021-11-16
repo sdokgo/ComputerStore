@@ -10,7 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_toolbar"
-        android:theme="@style/ToolbarColored" />
+        android:theme="@style/ToolbarColored" >
+        <ImageView
+            android:layout_gravity="end"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/img_cart"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_shopping_cart_24"
+            android:tint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <ScrollView
@@ -222,8 +234,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@drawable/border_add_cart"
+            android:gravity="center"
             android:maxLines="2"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="@string/add_to_cart"
             android:textColor="@color/blue"
             android:textSize="16sp"

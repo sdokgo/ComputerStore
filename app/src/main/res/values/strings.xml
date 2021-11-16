@@ -52,4 +52,10 @@
     <string name="a_to_z">Từ A đến Z</string>
     <string name="z_to_a">Từ Z đến A</string>
     <string name="status2">Trạng thái</string>
+    <string name="value_cart">Giá trị đơn hàng</string>
+    <string name="discount_1">Giảm giá</string>
+    <string name="total">Tổng tiền</string>
+    <string name="buy">Đặt hàng</string>
+    <string name="want_login">Bạn có muốn đăng nhập</string>
+    <string name="this_feature_in_develop">Chức năng đang phát triển</string>
 </resources>

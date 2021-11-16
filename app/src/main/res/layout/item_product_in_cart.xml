@@ -2,68 +2,119 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="100dp">
 
-    <TextView
+
+    <RelativeLayout
+        android:id="@+id/layout_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_NameProduct"
-        android:text="Tên sản phẩm"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20dp"
-        android:layout_toStartOf="@id/image_Product"
-        android:maxLines="@integer/material_motion_duration_medium_2"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_IdProduct"
-        android:text="Mã sản phẩm"
-        android:layout_below="@+id/txt_NameProduct"
-        android:textSize="12dp"
-        android:layout_alignParentStart="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_Price"
-        android:layout_below="@+id/txt_IdProduct"
-        android:text="Giá sản phẩm"
-        android:textSize="15dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"/>
+        <ImageView
+            android:id="@+id/image_product"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
 
-    <ImageView
-        android:id="@+id/image_Product"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentEnd="true" />
-    
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:id="@+id/btn_DeleteProduct"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/image_Product"
-        android:src="@drawable/ic_trash"
-        android:backgroundTintMode="screen"/>
+        <TextView
+            android:id="@+id/txt_key_id_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_NameProduct"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Mã SP:"
+            android:textSize="16sp" />
 
-    <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
-        android:id="@+id/number_of_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_Price"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        app:snp_buttonIconLeft="@drawable/ic_left"
-        app:snp_buttonIconRight="@drawable/ic_right"
-        app:snp_maxValue="100"
-        app:snp_minValue="1"
-        app:snp_orientation="horizontal"
-        app:snp_stepSize="1"
-        app:snp_value="1" />
+        <TextView
+            android:id="@+id/txt_value_id_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_NameProduct"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/txt_key_id_product"
+            android:textColor="@color/blue"
+            android:textSize="16sp" />
 
-       <!-- ScrollableNumberPicker.getValue()-->
+
+        <TextView
+            android:id="@+id/txt_NameProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@id/image_product"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Tên sản phẩm"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_below="@id/layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txt_Price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:text="2.890.000đ"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_Price"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:text="2.890.000đ"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_DeleteProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:backgroundTintMode="screen"
+            android:src="@drawable/ic_trash" />
+
+        <com.michaelmuenzer.android.scrollablennumberpicker.ScrollableNumberPicker
+            android:layout_centerVertical="true"
+            android:id="@+id/number_of_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            app:snp_buttonPaddingLeft="20dp"
+            app:snp_buttonPaddingRight="20dp"
+            app:snp_value_text_size="20sp"
+            app:snp_value_text_color="@color/black"
+            app:snp_buttonIconLeft="@drawable/minus"
+            app:snp_buttonIconRight="@drawable/plus"
+            app:snp_minValue="1"
+            app:snp_orientation="horizontal"
+            app:snp_stepSize="1"
+            app:snp_value="1" />
+
+        <!-- ScrollableNumberPicker.getValue()-->
+    </RelativeLayout>
+
 
 </RelativeLayout>
