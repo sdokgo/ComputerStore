@@ -108,6 +108,7 @@ public class CartActivity extends AppCompatActivity {
         private final WeakReference<CartActivity> mWeakReference;
         private boolean mIsSuccess;
         private String token;
+        int count = 0;
         private List<CartItems> list = new ArrayList<>();
 
         public getCartItemsAsyncTask(CartActivity activity) {
@@ -157,6 +158,7 @@ public class CartActivity extends AppCompatActivity {
                             CartItems cartItems = new CartItems(name, idItems, idCart,price, discountPrice,
                                     quantityCart, quantityItems, img);
                             list.add(cartItems);
+                            count++;
                         }
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
@@ -191,11 +193,6 @@ public class CartActivity extends AppCompatActivity {
 
     public void removeItemInCart(String id){
         new DeleteItemCartAsyncTask(this, id).execute();
-        int badgeCount = Utils.getIntPreferences(this, Utils.NUMBER_ITEMS_CART);
-        badgeCount--;
-        if (badgeCount>=0){
-            Utils.saveIntPreferences(this, Utils.NUMBER_ITEMS_CART, badgeCount);
-        }
     }
 
     private static class DeleteItemCartAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -203,6 +200,7 @@ public class CartActivity extends AppCompatActivity {
         private boolean mIsSuccess;
         private String id;
         private String token;
+        private int count;
 
         public DeleteItemCartAsyncTask(CartActivity activity, String id) {
             mWeakReference = new WeakReference<>(activity);
@@ -215,6 +213,9 @@ public class CartActivity extends AppCompatActivity {
             super.onPostExecute(unused);
             if (mIsSuccess){
                 Toast.makeText(mWeakReference.get(), "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                if (count>0){
+                    Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, count);
+                }
             }else {
                 Toast.makeText(mWeakReference.get(), "Lỗi hệ thống, xin thử lại sau!", Toast.LENGTH_SHORT).show();
             }
@@ -226,7 +227,7 @@ public class CartActivity extends AppCompatActivity {
                     .build();
             String url = "http://10.0.2.2:8000/api/cart/delete_item_cart";
             MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-            String bodyString = "itemId=" + id;
+            String bodyString = "itemID=" + id;
             RequestBody body = RequestBody.create(mediaType, bodyString);
             Request request = new Request.Builder()
                     .url(url)
@@ -238,6 +239,15 @@ public class CartActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONArray("ltItem");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            count++;
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
                 }else if (response.code() >= 400){
                     mIsSuccess  = false;
                 }

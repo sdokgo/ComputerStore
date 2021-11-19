@@ -686,9 +686,9 @@ public class CategoryFragment extends Fragment {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String id = jsonObject.getString(Constant.ID);
                             String name  = jsonObject.getString(Constant.Items.NAME);
-                            String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            int price = jsonObject.getInt(Constant.Items.PRICE);
-                            int discountPrice = jsonObject.getInt("promotional_price");
+                            String img = Constant.LOCALHOST+ jsonObject.getString(Constant.IMAGE);
+                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double discountPrice = jsonObject.getDouble(Constant.Items.DISCOUNT);
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
                         }

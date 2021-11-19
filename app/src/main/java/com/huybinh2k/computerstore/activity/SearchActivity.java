@@ -70,8 +70,8 @@ public class SearchActivity extends AppCompatActivity {
         list.add("Laptop");
         list.add("Chuột");
         list.add("Màn Hình");
-        list.add("Ram");
-        list.add("Tai Nghe");
+        list.add("Case");
+        list.add("CPU");
 
         SuggestionAdapter suggestionAdapter = new SuggestionAdapter(list);
         mGridViewSuggest = findViewById(R.id.grid_suggest);
@@ -194,8 +194,10 @@ public class SearchActivity extends AppCompatActivity {
                             String id = jsonObject.getString(Constant.ID);
                             String name  = jsonObject.getString(Constant.Items.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            int price = jsonObject.getInt(Constant.Items.PRICE);
-                            Items items = new Items(id, name, img, price);
+                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double discountPrice = jsonObject.getDouble("promotional_price");
+                            Items items = new Items(id, name, img, price, discountPrice);
+
                             list.add(items);
                         }
                     } catch (JSONException jsonException) {

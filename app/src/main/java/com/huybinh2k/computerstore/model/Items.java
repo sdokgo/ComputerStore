@@ -7,8 +7,8 @@ public class Items {
     private String mId;
     private String mName;
     private String mPathImage;
-    private int mPrice;
-    private int mDiscountPrice;
+    private double mPrice;
+    private double mDiscountPrice;
     private int mQuality;
     private String mDescription;
     private int mAssetId;
@@ -24,7 +24,7 @@ public class Items {
         this.mPrice = price;
     }
 
-    public Items(String mId, String mName, String mPathImage, int price, int discount) {
+    public Items(String mId, String mName, String mPathImage, double price, double discount) {
         this.mId = mId;
         this.mName = mName;
         this.mPathImage = mPathImage;
@@ -32,7 +32,7 @@ public class Items {
         this.mDiscountPrice = discount;
     }
 
-    public Items(String mId, String mName, String mPathImage, int mPrice, int mDiscountPrice, int mQuality, String mDescription, String mStatus) {
+    public Items(String mId, String mName, String mPathImage, double mPrice, double mDiscountPrice, int mQuality, String mDescription, String mStatus) {
         this.mId = mId;
         this.mName = mName;
         this.mPathImage = mPathImage;
@@ -43,7 +43,7 @@ public class Items {
         this.mStatus = mStatus;
     }
 
-    public Items(String mId, String mName, String mPathImage, int mPrice, int mDiscountPrice, int mQuality, String mDescription, int mAssetId, int mManufacturerId, String mItemCode, String mStatus) {
+    public Items(String mId, String mName, String mPathImage, double mPrice, double mDiscountPrice, int mQuality, String mDescription, int mAssetId, int mManufacturerId, String mItemCode, String mStatus) {
         this.mId = mId;
         this.mName = mName;
         this.mPathImage = mPathImage;
@@ -65,7 +65,7 @@ public class Items {
         return mPathImage;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return mPrice;
     }
 
@@ -73,7 +73,7 @@ public class Items {
         return  mId;
     }
 
-    public float getDiscountPrice() {
+    public double getDiscountPrice() {
         return mDiscountPrice;
     }
 

@@ -162,4 +162,13 @@ public class ComputerStoreActivity extends AppCompatActivity {
         super.onStart();
         new LoginActivity.GetCountCartAsyncTask(this, false).execute();
     }
+
+    public void  updateBadgeView(int count){
+        if (count ==0) {
+            mBadgeView.setVisibility(View.GONE);
+        }else {
+            mBadgeView.setVisibility(View.VISIBLE);
+            mBadgeView.setBadgeCount(count);
+        }
+    }
 }

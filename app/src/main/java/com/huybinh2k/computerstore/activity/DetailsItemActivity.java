@@ -1,12 +1,14 @@
 package com.huybinh2k.computerstore.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -51,6 +53,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class DetailsItemActivity extends AppCompatActivity {
+    private static final int REQUEST_LOGIN = 123;
     private ImageView mImageItem;
     private ImageView mImagePlus;
     private ImageView mImageMinus;
@@ -120,7 +123,7 @@ public class DetailsItemActivity extends AppCompatActivity {
                 });
                 builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     Intent intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_LOGIN);
                 });
                 builder.show();
             }
@@ -282,8 +285,8 @@ public class DetailsItemActivity extends AppCompatActivity {
                         String name = item.getString("item_name");
                         String img = "http://10.0.2.2:8000/"+ item.getString(Constant.IMAGE);
                         String des = item.getString("description");
-                        int price = item.getInt("price");
-                        int discountPrice = item.getInt("promotional_price");
+                        double price = item.getDouble("price");
+                        double discountPrice = item.getDouble("promotional_price");
                         int quality = item.getInt("quanlity");
                         String status = item.getString("status_name");
                         items = new Items(id,name,img, price, discountPrice, quality, des, status);
@@ -314,6 +317,7 @@ public class DetailsItemActivity extends AppCompatActivity {
         private String id;
         private int quantity;
         private String token;
+        private int count;
 
         public AddToCartAsyncTask(DetailsItemActivity activity, String id, int quantity) {
             mWeakReference = new WeakReference<>(activity);
@@ -327,11 +331,9 @@ public class DetailsItemActivity extends AppCompatActivity {
             super.onPostExecute(unused);
             if (mIsSuccess){
                 Toast.makeText(mWeakReference.get(), "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
-                int badgeCount = Utils.getIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART);
-                badgeCount++;
-                if (badgeCount>0){
-                    Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, badgeCount);
-                    mWeakReference.get().mBadgeView.setBadgeCount(badgeCount);
+                if (count>0){
+                    Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, count);
+                    mWeakReference.get().mBadgeView.setBadgeCount(count);
                     mWeakReference.get().mBadgeView.setVisibility(View.VISIBLE);
                 }
             }else {
@@ -357,6 +359,15 @@ public class DetailsItemActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONArray("ltItem");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            count++;
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
                 }else if (response.code() >= 400){
                     mIsSuccess  = false;
                 }
@@ -367,4 +378,24 @@ public class DetailsItemActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LOGIN){
+            if (resultCode == Activity.RESULT_OK){
+                int badgeCount = Utils.getIntPreferences(this, Utils.NUMBER_ITEMS_CART);
+                updateBadgeView(badgeCount);
+            }
+        }
+    }
+
+
+    public void  updateBadgeView(int count){
+        if (count ==0) {
+            mBadgeView.setVisibility(View.GONE);
+        }else {
+            mBadgeView.setVisibility(View.VISIBLE);
+            mBadgeView.setBadgeCount(count);
+        }
+    }
 }

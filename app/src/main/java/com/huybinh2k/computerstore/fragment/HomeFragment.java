@@ -217,8 +217,8 @@ public class HomeFragment extends Fragment {
                             String id = jsonObject.getString(Constant.ID);
                             String name  = jsonObject.getString(Constant.Items.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            int price = jsonObject.getInt(Constant.Items.PRICE);
-                            int discountPrice = jsonObject.getInt("promotional_price");
+                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double discountPrice = jsonObject.getDouble("promotional_price");
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
                         }
@@ -275,8 +275,8 @@ public class HomeFragment extends Fragment {
                             String id = jsonObject.getString(Constant.ID);
                             String name  = jsonObject.getString(Constant.Items.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            int price = jsonObject.getInt(Constant.Items.PRICE);
-                            int discountPrice = jsonObject.getInt("promotional_price");
+                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double discountPrice = jsonObject.getDouble("promotional_price");
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
                         }

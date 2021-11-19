@@ -61,7 +61,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemHolder> 
         Uri uriImage = Uri.parse(item.getPathImage());
         Glide.with(mContext).load(uriImage).into(holder.imageView);
 
-        float percentDiscount = 1 - item.getDiscountPrice() / item.getPrice();
+        double percentDiscount = 1 - item.getDiscountPrice() / item.getPrice();
         if (percentDiscount != 0) {
             String percent = "-" + (int)(percentDiscount * 100)  + "%";
             holder.textPercentDiscount.setText(percent);
@@ -123,9 +123,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemHolder> 
         public int compare(Items items, Items t1) {
             switch (mSortBy){
                 case SORT_BY_MAX_TO_MIN:
-                    return Float.compare(items.getDiscountPrice(), t1.getDiscountPrice());
+                    return Double.compare(items.getDiscountPrice(), t1.getDiscountPrice());
                 case SORT_BY_MIN_TO_MAX:
-                    return Float.compare(t1.getDiscountPrice(),items.getDiscountPrice());
+                    return Double.compare(t1.getDiscountPrice(),items.getDiscountPrice());
                 case SORT_BY_A_TO_Z:
                     return items.getName().compareToIgnoreCase(t1.getName());
                 case SORT_BY_Z_TO_A:

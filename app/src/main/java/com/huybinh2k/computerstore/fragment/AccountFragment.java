@@ -22,6 +22,7 @@ import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
 import com.huybinh2k.computerstore.activity.ChangePasswordActivity;
+import com.huybinh2k.computerstore.activity.ComputerStoreActivity;
 import com.huybinh2k.computerstore.activity.HelpActivity;
 import com.huybinh2k.computerstore.activity.InfomationActivity;
 import com.huybinh2k.computerstore.activity.LoginActivity;
@@ -115,6 +116,10 @@ public class AccountFragment extends Fragment {
                         mButtonLogin.setVisibility(View.VISIBLE);
                         mLayoutAccountInfo.setVisibility(View.GONE);
                         layoutBtnFunction.setVisibility(View.GONE);
+                        Utils.saveIntPreferences(getContext(), Utils.NUMBER_ITEMS_CART, 0);
+                        if (getActivity() instanceof ComputerStoreActivity){
+                            ((ComputerStoreActivity) getActivity()).updateBadgeView(0);
+                        }
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -138,8 +143,11 @@ public class AccountFragment extends Fragment {
                 layoutBtnFunction.setVisibility(View.VISIBLE);
                 mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
                 mButtonLogin.setVisibility(View.GONE);
+                int badgeCount = Utils.getIntPreferences(getContext(), Utils.NUMBER_ITEMS_CART);
+                if (getActivity() instanceof ComputerStoreActivity){
+                    ((ComputerStoreActivity) getActivity()).updateBadgeView(badgeCount);
+                }
             }
         }
-
     }
 }
