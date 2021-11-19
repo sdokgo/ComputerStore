@@ -398,4 +398,16 @@ public class DetailsItemActivity extends AppCompatActivity {
             mBadgeView.setBadgeCount(count);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int badgeCount = Utils.getIntPreferences(this, Utils.NUMBER_ITEMS_CART);
+        if (badgeCount>0){
+            mBadgeView.setBadgeCount(badgeCount);
+            mBadgeView.setVisibility(View.VISIBLE);
+        }else {
+            mBadgeView.setVisibility(View.GONE);
+        }
+    }
 }

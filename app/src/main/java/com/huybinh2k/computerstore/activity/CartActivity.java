@@ -69,11 +69,16 @@ public class CartActivity extends AppCompatActivity {
         new getCartItemsAsyncTask(this).execute();
         Button button = findViewById(R.id.btnOrder);
         button.setOnClickListener(view -> {
+            for (CartItems c: mListCart) {
+                new DeleteItemCartAsyncTask(this, c.getIdCarts(), true).execute();
+            }
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(true);
+            builder.setCancelable(false);
             builder.setTitle(R.string.notification);
-            builder.setMessage(R.string.this_feature_in_develop);
+            builder.setMessage("Đặt hàng thành công");
             builder.setNegativeButton(android.R.string.ok, (dialogInterface, i) -> {
+                finish();
             });
             builder.show();
         });
@@ -123,6 +128,7 @@ public class CartActivity extends AppCompatActivity {
                 mWeakReference.get().mCartAdapter.updateList(list);
                 mWeakReference.get().mViewCart.setVisibility(View.VISIBLE);
                 mWeakReference.get().updateTotalPrice(list);
+                mWeakReference.get().mListCart = list;
             }else {
             }
         }
@@ -191,7 +197,8 @@ public class CartActivity extends AppCompatActivity {
         mTotalCart.setText(c);
     }
 
-    public void removeItemInCart(String id){
+    public void removeItemInCart(String id, List<CartItems> list){
+        mListCart = list;
         new DeleteItemCartAsyncTask(this, id).execute();
     }
 
@@ -200,7 +207,8 @@ public class CartActivity extends AppCompatActivity {
         private boolean mIsSuccess;
         private String id;
         private String token;
-        private int count;
+        private int count = 0;
+        private boolean order;
 
         public DeleteItemCartAsyncTask(CartActivity activity, String id) {
             mWeakReference = new WeakReference<>(activity);
@@ -208,16 +216,27 @@ public class CartActivity extends AppCompatActivity {
             token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
         }
 
+        public DeleteItemCartAsyncTask(CartActivity activity, String id, boolean order) {
+            mWeakReference = new WeakReference<>(activity);
+            this.id = id;
+            token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
+            this.order = order;
+        }
+
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (mIsSuccess){
-                Toast.makeText(mWeakReference.get(), "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                if (count>0){
+                if (!order){
+                    Toast.makeText(mWeakReference.get(), "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                }
+                if (count>=0){
                     Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, count);
                 }
             }else {
-                Toast.makeText(mWeakReference.get(), "Lỗi hệ thống, xin thử lại sau!", Toast.LENGTH_SHORT).show();
+                if (!order){
+                    Toast.makeText(mWeakReference.get(), "Lỗi hệ thống, xin thử lại sau!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

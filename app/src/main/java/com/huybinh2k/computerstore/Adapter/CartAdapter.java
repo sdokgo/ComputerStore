@@ -77,7 +77,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                 mList.remove(cartItems);
                 mContext.updateTotalPrice(mList);
-                mContext.removeItemInCart(cartItems.getIdCarts());
+                mContext.removeItemInCart(cartItems.getIdCarts(), mList);
                 notifyItemRemoved(position);
             });
             builder.show();
