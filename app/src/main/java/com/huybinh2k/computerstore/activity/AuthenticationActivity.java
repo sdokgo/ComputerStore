@@ -48,7 +48,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private LoadingDialog mLoadingDialog;
     private String mMailAuthentic;
     private boolean mIsLossPass;
-    private String mOTP_hash;
+    private String mOTP_hash ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +115,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private static class AuthenticAsyncTask extends AsyncTask<Void, Void, Void> {
         private final WeakReference<AuthenticationActivity> mWeakReference;
         private boolean mIsSuccess;
+        private String mess ="";
 
 
         public AuthenticAsyncTask(AuthenticationActivity activity) {
@@ -137,15 +138,15 @@ public class AuthenticationActivity extends AppCompatActivity {
                             "Xác thực thành công", Toast.LENGTH_SHORT).show();
                     mWeakReference.get().setResult(RESULT_OK);
                     mWeakReference.get().finish();
-                }else if (mIsSuccess && mWeakReference.get().mIsLossPass){
+                }else if (mIsSuccess && mWeakReference.get().mIsLossPass && !mWeakReference.get().mOTP_hash.isEmpty()){
                     Intent intent = new Intent(mWeakReference.get(), ChangePasswordActivity.class);
                     intent.putExtra(Constant.IS_FORGET_PASS, true);
                     intent.putExtra(Constant.OTP_HASH, mWeakReference.get().mOTP_hash);
                     intent.putExtra(Constant.EMAIL, mWeakReference.get().mMailAuthentic);
                     mWeakReference.get().startActivityForResult(intent, REQUEST_FORGET_PASS);
-                }else {
+                }else if (!mess.isEmpty()){
                     Toast.makeText(mWeakReference.get().getApplicationContext(),
-                            "Mã xác thự không chính xác", Toast.LENGTH_SHORT).show();
+                            mess, Toast.LENGTH_SHORT).show();
                 }
             }else {
                 if (mIsSuccess){
@@ -198,6 +199,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                     if (mWeakReference.get().mIsLossPass) {
                         try {
                             JSONObject jObj = new JSONObject(Objects.requireNonNull(response.body()).string());
+                            if (jObj.toString().contains("message")){
+                                mess = jObj.getString("message");
+                                if (!mess.isEmpty()){
+                                    mIsSuccess = false;
+                                }
+                            }
                             mWeakReference.get().mOTP_hash = jObj.getString("OTP");
                         } catch (JSONException e) {
                             e.printStackTrace();
