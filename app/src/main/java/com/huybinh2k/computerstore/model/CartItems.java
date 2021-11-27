@@ -9,8 +9,8 @@ public class CartItems {
     private String idCarts;
     private float price;
     private float discount;
-    private int cartQuantity;
-    private int itemQuantity;
+    private int cartQuantity = 0;
+    private int itemQuantity = 0;
     private String image;
 
     public CartItems(String name, String idItems, String idCarts, float price, float discount, int cartQuantity, int itemQuantity, String image) {

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.allenliu.badgeview.BadgeView;
 import com.bumptech.glide.Glide;
 import com.huybinh2k.computerstore.Adapter.PropertyAdapter;
+import com.huybinh2k.computerstore.ComputerApplication;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
@@ -327,6 +328,9 @@ public class DetailsItemActivity extends AppCompatActivity {
             mWeakReference = new WeakReference<>(activity);
             this.id = id;
             this.quantity = quantity;
+            if (ComputerApplication.mMapCart.containsKey(id)){
+                this.quantity+= ComputerApplication.mMapCart.get(id).getCartQuantity();
+            }
             token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
         }
 
@@ -336,6 +340,9 @@ public class DetailsItemActivity extends AppCompatActivity {
             if (mIsSuccess){
                 Toast.makeText(mWeakReference.get(), "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
                 if (count>0){
+                    if (ComputerApplication.mMapCart.containsKey(id)){
+                        ComputerApplication.mMapCart.get(id).setCartQuantity(quantity);
+                    }
                     Utils.saveIntPreferences(mWeakReference.get(), Utils.NUMBER_ITEMS_CART, count);
                     mWeakReference.get().mBadgeView.setBadgeCount(count);
                     mWeakReference.get().mBadgeView.setVisibility(View.VISIBLE);

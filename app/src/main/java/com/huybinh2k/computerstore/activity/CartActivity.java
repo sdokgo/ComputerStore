@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huybinh2k.computerstore.Adapter.CartAdapter;
+import com.huybinh2k.computerstore.ComputerApplication;
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
@@ -262,6 +263,74 @@ public class CartActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             count++;
                         }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (CartItems c: mListCart) {
+            if (ComputerApplication.mMapCart.containsKey(c.getIdItems())){
+                if (c.getCartQuantity() != ComputerApplication.mMapCart.get(c.getIdItems()).getCartQuantity()){
+                    new UpdateItemCartAsyncTask(this,c.getIdItems(), c.getCartQuantity()).execute();
+                }
+            }
+        }
+    }
+
+
+    private static class UpdateItemCartAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<CartActivity> mWeakReference;
+        private boolean mIsSuccess;
+        private String id;
+        private int quantity;
+        private String token;
+
+        public UpdateItemCartAsyncTask(CartActivity activity, String id, int quantity) {
+            mWeakReference = new WeakReference<>(activity);
+            this.id = id;
+            this.quantity = quantity;
+            token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            String url = "http://10.0.2.2:8000/api/cart/add_to_cart";
+            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+            String bodyString = "itemId=" + id +"&quanlity=" + quantity;
+            RequestBody body = RequestBody.create(mediaType, bodyString);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("POST", body)
+                    .addHeader("Authorization","Bearer "+ token)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                    try {
+                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        JSONArray jsonArray = object.getJSONArray("ltItem");
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
                     }
