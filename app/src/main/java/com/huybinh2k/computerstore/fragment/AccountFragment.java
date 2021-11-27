@@ -150,4 +150,10 @@ public class AccountFragment extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
+    }
 }

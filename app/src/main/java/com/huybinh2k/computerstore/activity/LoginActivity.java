@@ -23,7 +23,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -138,6 +137,13 @@ public class LoginActivity extends AppCompatActivity {
 
             }else {
                 Toast.makeText(mWeakReference.get().getApplicationContext(), mess, Toast.LENGTH_SHORT).show();
+                if(mess.equalsIgnoreCase("Tài khoản chưa được kích hoạt")){
+                    new SendOTPAsyncTask(mWeakReference.get().mMail.getText().toString()).execute();
+                    Intent intent = new Intent(mWeakReference.get(), AuthenticationActivity.class);
+                    intent.putExtra(Constant.IS_REGISTER, true);
+                    intent.putExtra(Constant.EMAIL, mWeakReference.get().mMail.getText().toString());
+                    mWeakReference.get().startActivity(intent);
+                }
             }
         }
 
@@ -247,6 +253,37 @@ public class LoginActivity extends AppCompatActivity {
                 }else if (response.code() >= 400){
                     mIsSuccess  = false;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+    private static class SendOTPAsyncTask extends AsyncTask<Void, Void, Void>{
+
+        private String eMail;
+
+        public SendOTPAsyncTask(String mail) {
+            this.eMail = mail;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+            String mail = "email=" + eMail;
+            RequestBody body = RequestBody.create(mediaType, mail);
+            Request request = new Request.Builder()
+                    .url("http://10.0.2.2:8000/api/auth/send_OTP")
+                    .method("POST", body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }

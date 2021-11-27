@@ -6,6 +6,7 @@ public class Information {
     private String FullName;
     private String Email;
     private String Number;
+    private String address;
     private int Province_id;
     private int District_id;
     private int Ward_id;
@@ -37,6 +38,15 @@ public class Information {
         FullName = fullName;
         Email = email;
         Number = number;
+    }
+
+    public Information(int id, String name, String fullName, String email, String number, String address) {
+        Id = id;
+        Name = name;
+        FullName = fullName;
+        Email = email;
+        Number = number;
+        this.address = address;
     }
 
     public int getId() {
@@ -101,5 +111,9 @@ public class Information {
 
     public void setWard_id(int ward_id) {
         Ward_id = ward_id;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

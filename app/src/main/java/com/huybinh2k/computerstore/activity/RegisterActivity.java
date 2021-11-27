@@ -135,12 +135,12 @@ public class RegisterActivity extends AppCompatActivity {
             map.put(Constant.NAME, mName.getText().toString());
             map.put(Constant.FULL_NAME, mFullName.getText().toString());
             map.put("phone_number", mSDT.getText().toString());
-            map.put("address", mSDT.getText().toString());
+            map.put("address", mHouse.getText().toString());
             map.put("province_id", String.valueOf(mIdProvince));
             map.put("district_id", String.valueOf(mIdDistrict));
             map.put("ward_id", String.valueOf(mIdWard));
 
-            mData = getDataString(map);
+            mData = Utils.getDataString(map);
             RegisterAsyncTask myAsyncTask = new RegisterAsyncTask(this);
             myAsyncTask.execute();
         }
@@ -263,25 +263,7 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
-    /** BinhBH
-     * @param params
-     * @return chuyển về string liên kết key và value
-     */
-    private static String getDataString(LinkedHashMap<String, String> params){
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first) {
-                first = false;
-            } else {
-                result.append("&");
-            }
-            result.append(entry.getKey());
-            result.append("=");
-            result.append(entry.getValue());
-        }
-        return result.toString();
-    }
+
 
 
     private void gotoAuthenticationActivity(){

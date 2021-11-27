@@ -16,6 +16,9 @@ import com.huybinh2k.computerstore.LoadingDialog;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
@@ -70,6 +73,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
             if (mIsForgetPass){
                 ChangeForgetPassAsyncTask changeForgetPassAsyncTask = new ChangeForgetPassAsyncTask(this);
                 changeForgetPassAsyncTask.execute();
+            }else {
+                new ChangePassAsyncTask(this).execute();
             }
         }
     }
@@ -150,5 +155,80 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private static class ChangePassAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<ChangePasswordActivity> mWeakReference;
+        private boolean mIsSuccess;
+        private String mess;
+        private String token;
+
+        public ChangePassAsyncTask(ChangePasswordActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+            token = Utils.getStringPreferences(mWeakReference.get(), Constant.TOKEN_LOGIN);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mWeakReference.get().mLoadingDialog.showDialog();
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            mWeakReference.get().mLoadingDialog.dismissDialog();
+            if (mIsSuccess){
+                Toast.makeText(mWeakReference.get().getApplicationContext(),
+                        "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                mWeakReference.get().setResult(RESULT_OK);
+                mWeakReference.get().finish();
+            }else {
+                Toast.makeText(mWeakReference.get().getApplicationContext(),
+                        mess, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+            String data = "password_old=" +
+                    mWeakReference.get().mOldPass.getText().toString() +
+                    "&password_new=" + mWeakReference.get().mPass.getText().toString() +
+                    "&password_new_confirmation=" +mWeakReference.get().mPassConfirm.getText().toString();
+            RequestBody body = RequestBody.create(mediaType, data);
+            Request request = new Request.Builder()
+                    .url("http://10.0.2.2:8000/api/auth/changePassword")
+                    .method("POST", body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Authorization","Bearer "+ token)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+                }
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jObj = new JSONObject(responseString);
+                    if (jObj.toString().contains("message")) {
+                        mess = jObj.getString("message");
+                        if (!mess.isEmpty()) {
+                            mIsSuccess = false;
+                        }
+                    }
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

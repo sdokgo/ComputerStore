@@ -88,26 +88,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:text="Email :"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edit_Email"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/boder_edit_text"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
                 android:text="Số điện thoại :"
                 android:textSize="18dp" />
 
@@ -128,10 +108,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:text="Số nhà:"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/edit_House"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/boder_edit_text"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Tỉnh,Thành Phố :"
                 android:textSize="18dp"/>
 
             <Spinner
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:id="@+id/spinner_Provide"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -150,6 +152,8 @@
                 android:textSize="18dp" />
 
             <Spinner
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:id="@+id/spinner_District"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -168,6 +172,8 @@
                 android:textSize="18dp" />
 
             <Spinner
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:id="@+id/spinner_Ward"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

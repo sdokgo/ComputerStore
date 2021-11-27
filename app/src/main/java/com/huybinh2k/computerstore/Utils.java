@@ -7,6 +7,9 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Created by BinhBH on 11/4/2021.
  */
@@ -66,5 +69,25 @@ public class Utils {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    /** BinhBH
+     * @param params
+     * @return chuyển về string liên kết key và value
+     */
+    public static String getDataString(LinkedHashMap<String, String> params){
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (first) {
+                first = false;
+            } else {
+                result.append("&");
+            }
+            result.append(entry.getKey());
+            result.append("=");
+            result.append(entry.getValue());
+        }
+        return result.toString();
     }
 }

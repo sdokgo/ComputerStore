@@ -14,6 +14,10 @@ public class Region {
         this.name = name;
     }
 
+    public Region(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
