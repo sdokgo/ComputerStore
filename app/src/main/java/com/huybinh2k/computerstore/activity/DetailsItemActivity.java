@@ -210,6 +210,9 @@ public class DetailsItemActivity extends AppCompatActivity {
             mQuantity = 0;
             mQuantityAddToCart.setText(String.valueOf(mQuantity));
             mTextQuantity.setText(item.getStatus());
+            mAddToCart.setEnabled(false);
+            mAddToCart.setText(item.getStatus());
+            mAddToCart.setTextColor(getColor(R.color.black));
         }else {
             mTextQuantity.setText(String.valueOf(item.getQuality()));
         }

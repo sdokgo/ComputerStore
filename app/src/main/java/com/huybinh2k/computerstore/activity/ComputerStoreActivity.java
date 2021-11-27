@@ -1,5 +1,6 @@
 package com.huybinh2k.computerstore.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -32,6 +33,7 @@ import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
  */
 public class ComputerStoreActivity extends AppCompatActivity {
 
+    private static final int LOGIN_REQUEST = 123;
     private RelativeLayout mLayoutToolBar;
     private ViewPager2 mViewpager;
     private ImageView mImageViewCart;
@@ -47,6 +49,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
     }
 
     CategoryFragment categoryFragment = new CategoryFragment();
+    AccountFragment  accountFragment = new AccountFragment();
 
     private void initView(){
         mImageViewCart = findViewById(R.id.img_cart);
@@ -63,7 +66,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
                 });
                 builder.setPositiveButton("Đồng ý", (dialogInterface, i) -> {
                     Intent intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, LOGIN_REQUEST);
                 });
                 builder.show();
             }
@@ -94,7 +97,7 @@ public class ComputerStoreActivity extends AppCompatActivity {
         pagerAdapter.addFragment(new HomeFragment());
         pagerAdapter.addFragment(categoryFragment);
         pagerAdapter.addFragment(new NotificationFragment());
-        pagerAdapter.addFragment(new AccountFragment());
+        pagerAdapter.addFragment(accountFragment);
 
         mViewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         mViewpager.setAdapter(pagerAdapter);
@@ -169,6 +172,16 @@ public class ComputerStoreActivity extends AppCompatActivity {
         }else {
             mBadgeView.setVisibility(View.VISIBLE);
             mBadgeView.setBadgeCount(count);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_REQUEST){
+            if (resultCode == RESULT_OK){
+                accountFragment.updateUILogin(this);
+            }
         }
     }
 }

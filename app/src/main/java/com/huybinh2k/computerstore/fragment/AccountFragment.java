@@ -1,8 +1,10 @@
 package com.huybinh2k.computerstore.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
@@ -26,6 +29,15 @@ import com.huybinh2k.computerstore.activity.ComputerStoreActivity;
 import com.huybinh2k.computerstore.activity.HelpActivity;
 import com.huybinh2k.computerstore.activity.InfomationActivity;
 import com.huybinh2k.computerstore.activity.LoginActivity;
+
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by BinhBH on 10/9/2021.
@@ -67,16 +79,7 @@ public class AccountFragment extends Fragment {
         btn_Help = view.findViewById(R.id.btn_Help);
         btn_Logout = view.findViewById(R.id.btn_Logout);
 
-        if (Utils.getBooleanPreferences(getContext(), Utils.IS_LOGIN)){
-            mLayoutAccountInfo.setVisibility(View.VISIBLE);
-            layoutBtnFunction.setVisibility(View.VISIBLE);
-            mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
-            mButtonLogin.setVisibility(View.GONE);
-        }else {
-            mLayoutAccountInfo.setVisibility(View.GONE);
-            layoutBtnFunction.setVisibility(View.GONE);
-            mButtonLogin.setVisibility(View.VISIBLE);
-        }
+        updateUILogin(getContext());
 
         btn_Logout.setOnClickListener(view1-> Logout());
 
@@ -103,6 +106,22 @@ public class AccountFragment extends Fragment {
                 startActivity(new Intent(AccountFragment.this.getActivity(), HelpActivity.class)));
     }
 
+    public void updateUILogin(Context context) {
+        if (mLayoutAccountInfo == null){
+            return;
+        }
+        if (Utils.getBooleanPreferences(context, Utils.IS_LOGIN)){
+            mLayoutAccountInfo.setVisibility(View.VISIBLE);
+            layoutBtnFunction.setVisibility(View.VISIBLE);
+            mAccountName.setText(Utils.getStringPreferences(context, Constant.NAME));
+            mButtonLogin.setVisibility(View.GONE);
+        }else {
+            mLayoutAccountInfo.setVisibility(View.GONE);
+            layoutBtnFunction.setVisibility(View.GONE);
+            mButtonLogin.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void Logout() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -120,6 +139,7 @@ public class AccountFragment extends Fragment {
                         if (getActivity() instanceof ComputerStoreActivity){
                             ((ComputerStoreActivity) getActivity()).updateBadgeView(0);
                         }
+                        new LogoutAsyncTask(AccountFragment.this).execute();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -155,5 +175,58 @@ public class AccountFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mAccountName.setText(Utils.getStringPreferences(getContext(), Constant.NAME));
+    }
+
+
+    private static class LogoutAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final WeakReference<AccountFragment> mWeakReference;
+        private boolean mIsSuccess;
+        private String token;
+
+        public LogoutAsyncTask(AccountFragment activity) {
+            mWeakReference = new WeakReference<>(activity);
+            token = Utils.getStringPreferences(mWeakReference.get().getContext(), Constant.TOKEN_LOGIN);
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (mIsSuccess){
+                Toast.makeText(mWeakReference.get().getContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody body = RequestBody.create(mediaType, "");
+            Request request = new Request.Builder()
+                    .url("http://10.0.2.2:8000/api/auth/logout")
+                    .method("POST", body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Authorization", "Bearer " +token)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String responseString = response.body().string();
+                if (response.code() >= 200 && response.code() < 300){
+                    mIsSuccess = true;
+                }else if (response.code() >= 400){
+                    mIsSuccess  = false;
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
