@@ -58,4 +58,18 @@
     <string name="buy">Đặt hàng</string>
     <string name="want_login">Bạn có muốn đăng nhập</string>
     <string name="this_feature_in_develop">Chức năng đang phát triển</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="enter_phone">Nhập SĐT</string>
+    <string name="account_name">Tên tài khoản</string>
+    <string name="enter_ttk">Nhập tên tài khoản</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="enter_hvt">Nhập họ và tên</string>
+    <string name="number_house">Số nhà, phường</string>
+    <string name="enter_house">Nhập số nhà, phường</string>
+    <string name="province">Tỉnh/Thành phố</string>
+    <string name="district">Quận/Huyện</string>
+    <string name="ward">Xã/Phường/Thị trấn</string>
+    <string name="ten_tk">Bạn phải nhập tên tài khoản</string>
+    <string name="ho_ten">Bạn phải nhập họ và tên</string>
+    <string name="must_sdt">Định dạng số diện thoại không đúng</string>
 </resources>

@@ -155,7 +155,8 @@ public class HomeFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltSlide");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -200,7 +201,6 @@ public class HomeFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
-            String url;
             Request request = new Request.Builder()
                     .url("http://10.0.2.2:8000/api/item/get_list_new")
                     .method("GET", null)
@@ -210,14 +210,15 @@ public class HomeFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltItem");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String id = jsonObject.getString(Constant.ID);
-                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String name  = jsonObject.getString(Constant.Item.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double price = jsonObject.getDouble(Constant.Item.PRICE);
                             double discountPrice = jsonObject.getDouble("promotional_price");
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
@@ -268,14 +269,15 @@ public class HomeFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltItem");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String id = jsonObject.getString(Constant.ID);
-                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String name  = jsonObject.getString(Constant.Item.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double price = jsonObject.getDouble(Constant.Item.PRICE);
                             double discountPrice = jsonObject.getDouble("promotional_price");
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);

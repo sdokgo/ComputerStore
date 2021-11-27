@@ -1,19 +1,42 @@
 package com.huybinh2k.computerstore.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by BinhBH on 11/4/2021.
  */
 public class Items {
+    @SerializedName("id")
     private String mId;
+
+    @SerializedName("item_name")
     private String mName;
+
+    @SerializedName("image")
     private String mPathImage;
+
+    @SerializedName("price")
     private double mPrice;
+
+    @SerializedName("promotional_price")
     private double mDiscountPrice;
+
+    @SerializedName("quanlity")
     private int mQuality;
+
+    @SerializedName("description")
     private String mDescription;
+
+    @SerializedName("asset_id")
     private int mAssetId;
+
+    @SerializedName("manufacturer_id")
     private int mManufacturerId;
+
+    @SerializedName("item_code")
     private String mItemCode;
+
+    @SerializedName("status_name")
     private String mStatus;
 
 

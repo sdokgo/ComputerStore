@@ -476,7 +476,8 @@ public class CategoryFragment extends Fragment {
                     mIsSuccess = true;
                     try {
                         listCategory.add(new CategoryItem("0", "Tất cả", ""));
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltAsset");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -680,15 +681,16 @@ public class CategoryFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONObject("ltItem").getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String id = jsonObject.getString(Constant.ID);
-                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String name  = jsonObject.getString(Constant.Item.NAME);
                             String img = Constant.LOCALHOST+ jsonObject.getString(Constant.IMAGE);
-                            double price = jsonObject.getDouble(Constant.Items.PRICE);
-                            double discountPrice = jsonObject.getDouble(Constant.Items.DISCOUNT);
+                            double price = jsonObject.getDouble(Constant.Item.PRICE);
+                            double discountPrice = jsonObject.getDouble(Constant.Item.DISCOUNT);
                             Items items = new Items(id, name, img, price, discountPrice);
                             list.add(items);
                         }
@@ -740,7 +742,8 @@ public class CategoryFragment extends Fragment {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltManufacturer");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);

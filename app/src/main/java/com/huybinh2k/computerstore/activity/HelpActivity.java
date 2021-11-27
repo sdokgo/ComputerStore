@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.fragment.AccountFragment;
 
 public class HelpActivity extends AppCompatActivity {
 
-    private ImageButton btn_back;
+    private ImageView btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

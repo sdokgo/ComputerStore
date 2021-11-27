@@ -4,24 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue2"
     tools:context=".activity.InfomationActivity">
 
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/blue2">
+        android:layout_height="?actionBarSize"
+        android:background="@color/color_toolbar">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_backHelp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:background="@color/blue2"
-            android:backgroundTintMode="screen"
-            android:src="@drawable/ic_back1" />
+            android:src="@drawable/ic_back_48"
+            android:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,11 +46,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:drawableRight="@drawable/arrowright"
                 android:paddingLeft="10dp"
                 android:drawableLeft="@drawable/info"
                 android:text=" Thông tin ứng dụng"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +58,7 @@
                 android:paddingLeft="10dp"
                 android:drawableLeft="@drawable/contact"
                 android:text="  Liên hệ hỗ trợ :"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +67,7 @@
                 android:drawableLeft="@drawable/phone24h"
                 android:paddingLeft="20dp"
                 android:text="   Hotline :1900 1900"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,17 +76,16 @@
                 android:drawableLeft="@drawable/mailsend"
                 android:paddingLeft="20dp"
                 android:text="   Email    :ComputerStore@gmail.com"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:drawableRight="@drawable/arrowright"
                 android:paddingLeft="10dp"
                 android:drawableLeft="@drawable/term"
                 android:text=" Điều khoản sử dụng"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"

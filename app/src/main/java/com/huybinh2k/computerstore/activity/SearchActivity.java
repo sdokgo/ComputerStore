@@ -17,7 +17,6 @@ import com.huybinh2k.computerstore.Constant;
 import com.huybinh2k.computerstore.R;
 import com.huybinh2k.computerstore.Utils;
 import com.huybinh2k.computerstore.database.SuggestionDAO;
-import com.huybinh2k.computerstore.fragment.CategoryFragment;
 import com.huybinh2k.computerstore.model.Items;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
@@ -192,9 +191,9 @@ public class SearchActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String id = jsonObject.getString(Constant.ID);
-                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String name  = jsonObject.getString(Constant.Item.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            double price = jsonObject.getDouble(Constant.Items.PRICE);
+                            double price = jsonObject.getDouble(Constant.Item.PRICE);
                             double discountPrice = jsonObject.getDouble("promotional_price");
                             Items items = new Items(id, name, img, price, discountPrice);
 

@@ -196,19 +196,18 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
-                    if (mWeakReference.get().mIsLossPass) {
-                        try {
-                            JSONObject jObj = new JSONObject(Objects.requireNonNull(response.body()).string());
-                            if (jObj.toString().contains("message")){
-                                mess = jObj.getString("message");
-                                if (!mess.isEmpty()){
-                                    mIsSuccess = false;
-                                }
+                    try {
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
+                        if (object.toString().contains("message")){
+                            mess = object.getString("message");
+                            if (!mess.isEmpty()){
+                                mIsSuccess = false;
                             }
-                            mWeakReference.get().mOTP_hash = jObj.getString("OTP");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        mWeakReference.get().mOTP_hash = object.getString("OTP");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                     if (!mWeakReference.get().mIsAuthentic){
                         mWeakReference.get().mIsLossPass = true;

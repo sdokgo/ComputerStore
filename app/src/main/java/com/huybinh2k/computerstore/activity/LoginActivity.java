@@ -167,7 +167,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 try {
-                    JSONObject jObj = new JSONObject(Objects.requireNonNull(response.body()).string());
+                    String responseString = response.body().string();
+                    JSONObject jObj = new JSONObject(responseString);
                     if (jObj.toString().contains("message")){
                         mess = jObj.getString("message");
                         if (!mess.isEmpty()){
@@ -233,7 +234,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONArray jsonArray = object.getJSONArray("ltItem");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             count++;

@@ -279,7 +279,8 @@ public class DetailsItemActivity extends AppCompatActivity {
                 if (response.code() >= 200 && response.code() < 300){
                     mIsSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONObject item = object.getJSONObject("item");
                         String id = item.getString("id");
                         String name = item.getString("item_name");

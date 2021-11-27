@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.huybinh2k.computerstore.R;
@@ -27,7 +28,7 @@ public class InfomationActivity extends AppCompatActivity {
 
     private EditText edit_Name,edit_FullName,edit_Email,edit_Number;
     private Spinner spinner_Provide,spinner_District,spinner_Ward;
-    private ImageButton btn_Back;
+    private ImageView btn_Back;
     private AppCompatButton btn_Update;
     private String Id;
     private Information mInfo;
@@ -97,7 +98,8 @@ public class InfomationActivity extends AppCompatActivity {
                 if (response.code() >= 200 && response.code() < 300){
                     isSuccess = true;
                     try {
-                        JSONObject object = new JSONObject(Objects.requireNonNull(response.body()).string());
+                        String responseString = response.body().string();
+                        JSONObject object = new JSONObject(responseString);
                         JSONObject info = object.getJSONObject("user");
                         int id = info.getInt("id");
                         String name = info.getString("name");

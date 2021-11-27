@@ -7,10 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -152,9 +150,9 @@ public class CartActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String idItems = jsonObject.getString(Constant.ID);
-                            String name  = jsonObject.getString(Constant.Items.NAME);
+                            String name  = jsonObject.getString(Constant.Item.NAME);
                             String img = "http://10.0.2.2:8000/"+ jsonObject.getString(Constant.IMAGE);
-                            int price = jsonObject.getInt(Constant.Items.PRICE);
+                            int price = jsonObject.getInt(Constant.Item.PRICE);
                             int discountPrice = jsonObject.getInt("promotional_price");
                             int quantityItems = jsonObject.getInt("quanlity");
                             JSONObject objectCart = jsonObject.getJSONObject("pivot");

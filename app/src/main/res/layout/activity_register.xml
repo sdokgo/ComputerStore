@@ -12,131 +12,376 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/logo" />
 
-    <TextView
-        android:textSize="20sp"
-        android:id="@+id/txt_mail"
-        android:layout_marginStart="30dp"
-        android:text="@string/email"
+    <ScrollView
         android:layout_below="@id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <FrameLayout
-        android:id="@+id/frame_mail"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:layout_below="@id/txt_mail"
+        android:layout_above="@id/btn_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <EditText
-            android:hint="@string/enter_mail"
-            android:id="@+id/edt_mail"
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:inputType="text"
-            android:maxLines="1"
-            android:background="@null"
-            android:paddingStart="40dp"
-            android:paddingEnd="10dp">
+            android:layout_height="wrap_content">
 
-            <requestFocus />
-        </EditText>
-        <ImageView
-            android:layout_marginStart="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start|center_vertical"
-            android:background="@drawable/ic_mail_black_24" />
-    </FrameLayout>
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/account_name"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_name"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_ttk"
+                    android:id="@+id/edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                    <requestFocus />
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_person_24" />
+            </FrameLayout>
 
-    <TextView
-        android:textSize="20sp"
-        android:id="@+id/txt_pass1"
-        android:layout_marginStart="30dp"
-        android:text="@string/password"
-        android:layout_below="@id/frame_mail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <FrameLayout
-        android:id="@+id/frame_pass"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:layout_below="@id/txt_pass1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <EditText
-            android:hint="@string/enter_pass"
-            android:id="@+id/edt_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:background="@null"
-            android:paddingStart="40dp"
-            android:paddingEnd="10dp">
+            <TextView
+                android:id="@+id/txt_full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/full_name"
+                android:layout_below="@id/frame_name"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_full_name"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_hvt"
+                    android:id="@+id/edt_full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_person_24" />
+            </FrameLayout>
+            <TextView
+                android:layout_below="@id/frame_full_name"
+                android:id="@+id/txt_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/phone"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_phone"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_phone"
+                    android:id="@+id/edt_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_local_phone_24" />
+            </FrameLayout>
+            <TextView
+                android:layout_below="@id/frame_phone"
+                android:textSize="20sp"
+                android:id="@+id/txt_mail"
+                android:layout_marginStart="30dp"
+                android:text="@string/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:id="@+id/frame_mail"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_mail"
+                    android:id="@+id/edt_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_mail_black_24" />
+            </FrameLayout>
 
-            <requestFocus />
-        </EditText>
-        <ImageView
-            android:layout_marginStart="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start|center_vertical"
-            android:background="@drawable/ic_lock_24" />
-    </FrameLayout>
-    <TextView
-        android:textSize="20sp"
-        android:id="@+id/txt_pass2"
-        android:layout_marginStart="30dp"
-        android:text="@string/re_enter_pass"
-        android:layout_below="@id/frame_pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <FrameLayout
-        android:id="@+id/frame_pass2"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:layout_below="@id/txt_pass2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <EditText
-            android:hint="@string/enter_pass"
-            android:id="@+id/edt_pass2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:background="@null"
-            android:paddingStart="40dp"
-            android:paddingEnd="10dp">
-            <requestFocus />
-        </EditText>
-        <ImageView
-            android:layout_marginStart="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start|center_vertical"
-            android:background="@drawable/ic_lock_24" />
-    </FrameLayout>
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/txt_pass1"
+                android:layout_marginStart="30dp"
+                android:text="@string/password"
+                android:layout_below="@id/frame_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:id="@+id/frame_pass"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_pass1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_pass"
+                    android:id="@+id/edt_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_lock_24" />
+            </FrameLayout>
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/txt_pass2"
+                android:layout_marginStart="30dp"
+                android:text="@string/re_enter_pass"
+                android:layout_below="@id/frame_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:id="@+id/frame_pass2"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_pass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <EditText
+                    android:hint="@string/enter_pass"
+                    android:id="@+id/edt_pass2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+                </EditText>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_lock_24" />
+            </FrameLayout>
 
-    <Button
-        android:id="@+id/btn_register"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/border_button_blue"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/frame_pass2"
-        android:text="@string/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txt_house"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/number_house"
+                android:layout_below="@id/frame_pass2"
+                android:textSize="20sp" />
+
+            <FrameLayout
+                android:id="@+id/frame_house"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_house"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border">
+
+                <EditText
+                    android:id="@+id/edt_house"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@null"
+                    android:hint="@string/enter_house"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="10dp">
+
+                </EditText>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_baseline_house_24" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/province"
+                android:layout_below="@id/frame_house"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_province"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_province"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Spinner
+                    android:minHeight="42dp"
+                    android:paddingStart="50dp"
+                    android:id="@+id/spinner_Provide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_house_24" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frame_province"
+                android:layout_marginStart="30dp"
+                android:text="@string/district"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_district"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Spinner
+                    android:minHeight="42dp"
+                    android:paddingStart="50dp"
+                    android:id="@+id/spinner_District"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_house_24" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_ward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frame_district"
+                android:layout_marginStart="30dp"
+                android:text="@string/ward"
+                android:textSize="20sp" />
+            <FrameLayout
+                android:id="@+id/frame_ward"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border"
+                android:layout_below="@id/txt_ward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Spinner
+                    android:minHeight="42dp"
+                    android:paddingStart="50dp"
+                    android:id="@+id/spinner_Ward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/ic_baseline_house_24" />
+            </FrameLayout>
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frame_ward"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/border_button_blue"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text="@string/register"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+
 </RelativeLayout>
